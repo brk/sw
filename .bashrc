@@ -7,8 +7,8 @@ UNAME=$(uname)
 
 
 
-#export PATH=~/sw/bin:$PATH
-#export LD_LIBRARY_PATH=~/sw/lib:$LD_LIBRARY_PATH
+export PATH=~/sw/bin:$PATH
+export LD_LIBRARY_PATH=~/sw/lib:$LD_LIBRARY_PATH
 
 shopt -s extglob
 shopt -s cdspell
@@ -44,6 +44,6 @@ mkcd () { mkdir $1 && cd $1 }
 
 
 
-if [ -f ~/sw/bash_completion.sh ]; then
-    source ~/sw/bash_completion.sh
+if [ -f bash_completion.sh ]; then
+    source bash_completion.sh
 fi
