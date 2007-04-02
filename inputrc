@@ -8,6 +8,7 @@
 # 
 # ^w    erase word
 # ^u    erase to start of line
+# C-x C-r		re-read inputrc
 
 $if Bash
   Space: magic-space
@@ -17,7 +18,7 @@ $endif
 "\t": menu-complete
 
 # Delete key forward deletes a character
-#"\e[3~": delete-char
+"\e[3~": delete-char
 
 # Control + Left/Right Arrow 
 #"\e[5C": end-of-line
@@ -62,12 +63,16 @@ $endif
 set bell-style visible
 # Don't (disruptively) expand tildes in commands
 set expand-tilde off
+set mark-directories on
+set mark-symliked-directories on
+set completion-ignore-case on
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set visible-stats on
+
 set convert-meta off
 set input-meta on
 set output-meta on
-set show-all-if-ambiguous on
-set visible-stats on
-set completion-ignore-case On
 
 #set edit-mode vi
 
