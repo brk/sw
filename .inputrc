@@ -16,12 +16,18 @@ $endif
 # make tab cycle through completions
 "\t": menu-complete
 
+# Delete key forward deletes a character
+#"\e[3~": delete-char
+
+# Control + Left/Right Arrow 
+#"\e[5C": end-of-line
+#"\e[5D": beginning-of-line
+#"\e[5C": forward-word
+#"\e[5D": backward-word
+
 # last command line with cursor after command name
 #   convenient for adding forgotten flags to commands
 "\M-o": "\C-p\C-a\M-f "
-
-# do not make noise
-#set bell-style none
 
 # By default up/down are bound to previous-history
 # and next-history respectively. The following does the
@@ -34,33 +40,33 @@ $endif
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
+# PageUp/PageDown
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+
+
 #for if left and right don't work...
 #"\e[C": forward-char
 #"\e[D": backward-char
 
-# F10 toggles mc on and off
-# Note Ctrl-o toggles panes on and off in mc
-"\e[21~": "mc\C-M"
+# F10 
+"\e[21~": beginning-of-line
 
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[2~": quoted-insert
+"\e\e[C": forward-word
+"\e\e[D": backward-word
 
+# do not make noise
 set bell-style visible
+# Don't (disruptively) expand tildes in commands
 set expand-tilde off
 set convert-meta off
 set input-meta on
 set output-meta on
 set show-all-if-ambiguous on
 set visible-stats on
-
-"\e[1~": beginning-of-line
-"\e[4~": end-of-line
-"\e[5~": beginning-of-history
-"\e[6~": end-of-history
-"\e[3~": delete-char
-"\e[2~": quoted-insert
-"\e[5C": forward-word
-"\e[5D": backward-word
-"\e\e[C": forward-word
-"\e\e[D": backward-word
 set completion-ignore-case On
 
 #set edit-mode vi
