@@ -1,11 +1,16 @@
 startup_message off     # gosh!
+vbell on                # no annoying audible bell, please
+defutf8 on		# UTF-8 everywhere!
+defflow off		# no ^S/^Q
+
+altscreen on		# restore window contents after using (e.g.) vi
 
 # Window list at the bottom.
 #hardstatus alwayslastline
 #hardstatus string "%-w%{= BW}%50>%n %t%{-}%+w%<"
 #hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %m/%d %c ]%{W}'
 
-vbell on                # no annoying audible bell, please
+
 
 # advertise hardstatus support to $TERMCAP
 # termcapinfo  * '' 'hs:ts=\E_:fs=\E\\:ds=\E_\E\\'
@@ -14,7 +19,10 @@ vbell on                # no annoying audible bell, please
 # defhstatus "screen: ^En (^Et)"
 
 #term screen-256color
-defutf8 on
+
+# caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
+# hardstatus alwaysignore
+# hardstatus alwayslastline "%Lw"
 
 
 ################ xterm tweaks #################
@@ -24,6 +32,9 @@ defutf8 on
 #some programs (e.g. vi) will not work anymore.
 termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
 terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+
+# Tell screen that xterm can have its titlebar function as a hardstatus line
+termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
 
 #80/132 column switching must be enabled for ^AW to work
 #change init sequence to not switch width
@@ -97,14 +108,13 @@ register [ "\033:se noai\015a"
 register ] "\033:se ai\015a"
 bind ^] paste [.]
 
-# caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
-# hardstatus alwaysignore
-# hardstatus alwayslastline "%Lw"
 
 # bind = resize =
 # bind + resize +1
 # bind - resize -1
 # bind _ resize max
 
+# connect windows to the display so programs like mplayer can find it when
+# we're inside a screen in a terminal application in a graphical environment
+#setenv DISPLAY ':0'
 
-source ${HOME}/.screenrc-${BRK_SYSTEM}

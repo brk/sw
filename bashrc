@@ -2,32 +2,44 @@
 # also sourced by ~/.bash_profile 
 
 echo Reading .bashrc >&2
-UNAME=$(uname)
 
-shopt -s extglob
-shopt -s cdspell
-shopt -s dotglob
-# append rather than overwrite history to disk
-shopt -s histappend
+shopt -s cdspell # Ignore minor typos
+shopt -s dotglob # Include dotfiles in expansions
+shopt -s checkwinsize # So resizing putty in vim doesn't confuse bash
+shopt -s extglob # Enable more powerful pattern matching (Pathname Expansion)
+shopt -s histappend # Append rather than overwrite history to disk
+shopt -s histreedit # So we get to re-edit failed history substitutions
+shopt -s histverify # So we get to manually verify history substitutions
+shopt -s no_empty_cmd_completions # Don't bother completing empty lines
+#shopt -s nocaseglob # Do case-insensitive pathname expansion
 
-# disable XON/XOFF flow control (^s/^q) 
-stty -ixon
+
+stty -ixon # disable XON/XOFF flow control (^s/^q) 
 
 set -o ignoreeof
+set -o noclobber
 
-alias pscp="scp -pr"
-alias ls="ls -FAH"
+if [ $(uname) == "SunOS" ]; then
+	if [ -x /opt/sfw/bin/gls ]; then # GNU ls is better than Solaris ls
+		alias ls="/opt/sfw/bin/gls -FAH --color=auto"
+	else
+		alias ls="ls -FAh"
+	fi
+else
+	alias ls="ls -FAH --color=auto" # assume nice GNU ls
+fi
+
 alias ll="ls -l"
 alias lsl="ls -l"
 alias lv='ls | grep "[^~*]$"'
-alias up2="cd ../../"
-alias cd..='cd ..'
 alias more='less'
 alias vim="vim -X"
+alias pscp="scp -pr"
+
+alias up2="cd ../../"
+alias cd..='cd ..'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
 
 try_include bash_completion.sh
-
-# This allows for OS-specific configurations.
-# For example, SunOS doesn't have GNU utils
-try_include .bashrc-$UNAME
-

@@ -41,6 +41,9 @@ fi
 set magic               " Make sure we use new-style portable regexp rules
 set visualbell          " Audible bells? Ew.
 
+set autowrite           " We want to auto-write for :make
+set noautowriteall      " But not :qa (when discarding changes may be better)
+
 " ========================= WHITESPACE =========================
 set expandtab           " Always convert tabs to spaces
 set tabstop=8           " Interpret existing hard tabs as 8 spaces
