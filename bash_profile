@@ -69,6 +69,7 @@ export -f mkcd try_include
 
 
 try_include .bashrc
+try_include ~/sw/bash_profile.sh
 try_include ~/sw/g.bash
 
 echo -n -e "\005"		# Try to extract terminal emulator identifier string

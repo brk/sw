@@ -40,6 +40,7 @@ alias ....="cd ../../.."
 
 
 try_include ~/sw/bash_completion.sh
+try_include ~/sw/bashrc.sh
 set_prompt
 
 echo Done reading .bashrc >&2
