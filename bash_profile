@@ -1,9 +1,10 @@
 # Sourced at login.
 # Exported variables go here, most other stuff goes in .bashrc
 
+echo Sourcing bash_profile >&2
 
-export PATH=~/sw/bin:$PATH
-export LD_LIBRARY_PATH=~/sw/lib:$LD_LIBRARY_PATH
+export PATH=~/sw/bin:/usr/local/bin:/sw/bin:$PATH
+export LD_LIBRARY_PATH=~/sw/lib:/usr/local/lib:$LD_LIBRARY_PATH
 
 export CDPATH=".:..:~:~/links/"
 # always append last history line at every prompt
@@ -24,19 +25,20 @@ set_prompt () {
 	# Brown   0;33   Yellow       1;33  Light Gray  0;37   White         1;37
 	local user="\u"
 	local machine="\h" # to first dot
-	if [ ${BASH_VERSINFO[0]} >= "3" ]
+	if [ ${BASH_VERSINFO[0]} -ge "3" ]
 		then local datetime="\D{%F %T}" #"2007-04-03 17:51:50"
 		else local datetime="\d" # gives "Tue Apr  3 17:37:13"
 	fi
+	local datetime="$(date +%Y-%m-%d\ %H:%M:%S)"
 	local cwd="\w" # "~/.ssh"
 	local titlebar="\e]2;$user@$machine $cwd\a"
 	local purple="\e[35;1m"
 	local green="\e[32;1m"
 	local reset="\e[0m"
-	local pretty_cwd="\[$color\]$cwd\[$reset\]"
+	local pretty_cwd="\[$green\]$cwd/\[$reset\]"
 	local histnum="\!"
 	local forty_spaces="                                        "
-	export PS1=":\[$titlebar\]$forty_spaces[$histnum] $datetime \n:$pretty_cwd \$ "
+	export PS1="\[$titlebar\]$datetime $pretty_cwd \$ "
 	# Prefixing the prompt with a colon means that if you copy-and-paste
 	# and entire prompt string by accident, no harm done -- colon is nop
 	
@@ -45,7 +47,6 @@ set_prompt () {
 }
 
 mkcd () { mkdir $1 && cd $1; }
-
 try_include () {
         if [ -f $1 ]; then
                 source $1
@@ -59,11 +60,11 @@ which () {
 export -f which
 fi
 
-export -f mkcd
+export -f mkcd try_include
 
 
-try_include bashrc
-try_include g.bash
+try_include .bashrc
+try_include ~/sw/g.bash
 
 echo -n -e "\005"		# Try to extract terminal emulator identifier string
 read -s -t 1 ANSWERBACK

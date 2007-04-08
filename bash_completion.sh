@@ -9,9 +9,9 @@ bash=${BASH_VERSION%.*}; bmajor=${bash%.*}; bminor=${bash#*.}
 # Check for interactive shell.
 if [ -n "$PS1" ]; then
   if [ $bmajor -eq 2 -a $bminor '>' 04 ] || [ $bmajor -gt 2 ]; then
-    if [ -r /etc/bash_completion ]; then
+    if [ -r ~/sw/bash_completion ]; then
       # Source completion code.
-      . /etc/bash_completion
+      . ~/sw/bash_completion
     fi
   fi
 fi

@@ -3,21 +3,19 @@
 
 echo Reading .bashrc >&2
 
-shopt -s cdspell # Ignore minor typos
-shopt -s dotglob # Include dotfiles in expansions
-shopt -s checkwinsize # So resizing putty in vim doesn't confuse bash
-shopt -s extglob # Enable more powerful pattern matching (Pathname Expansion)
-shopt -s histappend # Append rather than overwrite history to disk
-shopt -s histreedit # So we get to re-edit failed history substitutions
-shopt -s histverify # So we get to manually verify history substitutions
-shopt -s no_empty_cmd_completions # Don't bother completing empty lines
-#shopt -s nocaseglob # Do case-insensitive pathname expansion
-
+shopt -s cdspell 	# Ignore minor typos
+shopt -s dotglob 	# Include dotfiles in expansions
+shopt -s checkwinsize 	# So resizing putty in vim doesn't confuse bash
+shopt -s extglob 	# Enable more powerful pattern matching (Pathname Expansion)
+shopt -s histappend	# Append rather than overwrite history to disk
+shopt -s histreedit	# So we get to re-edit failed history substitutions
+shopt -s histverify 	# So we get to manually verify history substitutions
+shopt -s no_empty_cmd_completion # Don't bother completing empty lines
+shopt -s nocaseglob # Do case-insensitive pathname expansion
 
 stty -ixon # disable XON/XOFF flow control (^s/^q) 
 
-set -o ignoreeof
-set -o noclobber
+set -o ignoreeof noclobber
 
 if [ $(uname) == "SunOS" ]; then
 	if [ -x /opt/sfw/bin/gls ]; then # GNU ls is better than Solaris ls
@@ -26,7 +24,7 @@ if [ $(uname) == "SunOS" ]; then
 		alias ls="ls -FAh"
 	fi
 else
-	alias ls="ls -FAH --color=auto" # assume nice GNU ls
+	alias ls="ls -FAh --color=auto" # assume nice GNU ls
 fi
 
 alias ll="ls -l"
@@ -42,4 +40,8 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+
 try_include bash_completion.sh
+set_prompt
+
+echo Done reading .bashrc >&2
