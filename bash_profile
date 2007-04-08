@@ -17,6 +17,9 @@ export LESS="--long-prompt --quiet --line-numbers"
 export LESSSECURE=1
 export PAGER="less"
 
+export SCREENRC=~/sw/screenrc
+export INPUTRC=~/sw/inputrc
+
 set_prompt () {
 	# ========== BASH COLOR CODES ===========
 	# Black   0;30   Dark Gray    1;30  Blue        0;34   Light Blue    1;34
