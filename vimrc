@@ -49,6 +49,7 @@ set expandtab           " Always convert tabs to spaces
 set tabstop=8           " Interpret existing hard tabs as 8 spaces
 set shiftwidth=4        " But new 'tabs' are really 4 spaces
 set shiftround          " Always round indent to multiple of 'shiftwidth' spaces
+
 "use :set list! to toggle visible whitespace on/off
 set listchars=tab:>-,trail:.,extends:>
 
@@ -61,6 +62,16 @@ match RedundantSpaces /\s\+$\| \+\ze\t/
 
 set virtualedit=onemore
 set whichwrap=b,s,[,]   " Backspace goes to prev line, space to next line
+
+" ================== NON-WHITESPACE FORMATTING ==================
+" get rid of the default style of C comments, and define a style with two stars
+" at the start of `middle' rows which (looks nicer and) avoids asterisks used
+" for bullet lists being treated like C comments; then define a bullet list
+" style for single stars (like already is for hyphens):
+set comments-=s1:/*,mb:*,ex:*/
+set comments+=s:/*,mb:**,ex:*/
+set comments+=fb:*
+
 set wrapmargin=2
 set scrolloff=3         " Keep a few context lines above & below the cursor
 set sidescrolloff=5
@@ -92,12 +103,24 @@ set formatoptions=roqcnt1
 
 set path+=~/sw/vim/
 
+if has("spell")
+	set spell		" Turn spelling on by default
+				" Toggle spelling with F4 key
+	map <F4> :set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn, 3 * &spell, 3)<CR>
+
+	set sps=best,10		" Limit it to the top 10 items
+				" They'd been using white on white
+	"highlight PmenuSel ctermf=black ctermbg=lightgray
+endif
 
 " ========================= HIGHLIGHTING =========================
 
-"set background=dark
+if expand("$ANSWERBACK") == "PuTTY"
+	set background=dark
+endif
+
 "The following should be done automatically for the default colour scheme
-"at least, but it is not in Vim 7.0.17 at least.
+"at least, but it is not in Vim 7.0.17
 if &bg == "dark"
   highlight MatchParen ctermbg=blue guibg=blue
 endif
@@ -147,13 +170,26 @@ imap <F2> <ESC>:set hlsearch!<CR>a
 "  inoremap <silent><PageDown> <C-r>=pumvisible()?"\<lt>PageDown>\<lt>C-p>\<lt>C-n>":"\<lt>PageDown>"<CR>
 "  inoremap <silent><PageUp>   <C-r>=pumvisible()?"\<lt>PageUp>\<lt>C-p>\<lt>C-n>":"\<lt>PageUp>"<CR>
 
+if v:version > 700	" Force use of tabs in Vim 7
+    nnoremap gf <C-W>gf
+    cabbrev  e  tabe
+endif
+
+"display RGB colour under the cursor eg #445588
+:nmap <leader>c :hi Normal guibg=#<c-r>=expand("<cword>")<cr><cr>
+
+" ========================= Register Default Mappings ===================
+let @i="\"rywjdw\"rPb"	" This is a macro for creating incrmenting lists
 
 let g:is_bash=1             " Default shell syntax is bash, not ksh
 " ========================= File syntax options: =========================
 let c_comment_strings=1         " Highlight strings in C comments
 let lisp_rainbow = 1
 
+let php_parent_error_close = 1
+let php_parent_error_open = 1
 let php_htmlInStrings = 1
+let php_sql_query = 1
 let php_baselib = 1
 let php_folding = 1
 

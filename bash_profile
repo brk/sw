@@ -65,6 +65,12 @@ export -f mkcd
 try_include bashrc
 try_include g.bash
 
+echo -n -e "\005"		# Try to extract terminal emulator identifier string
+read -s -t 1 ANSWERBACK
+export ANSWERBACK		# Ensure that subshells (for e.g. vim) will have it too
+
+
+
 #echo -e "\033(0  abcdefghijklmnopqurstuvwxyz \033(B"
 
 
