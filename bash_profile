@@ -20,7 +20,7 @@ export PAGER="less"
 export SCREENRC=~/sw/screenrc
 export INPUTRC=~/sw/inputrc
 
-[ -f ~/sw/dircolors ] && which dircolors && eval `dircolors -b ~/sw/dircolors`
+[ -f ~/sw/dircolors ] && which dircolors >/dev/null && eval `dircolors -b ~/sw/dircolors`
 
 set_prompt () {
 	# ========== BASH COLOR CODES ===========
