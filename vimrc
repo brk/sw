@@ -36,8 +36,8 @@ set statusline=%<%f%=\ %m[b:%n]%h%r\ %-8(%)\ chr(%3b)\ @\ %2c%3V:\ line\ %l\ of\
 set laststatus=2        " Always display the statusline
 if has("title")
 "set title              " If possible, make the titlebar display useful info
-"set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
-fi
+"set titlestring=[vim@%{hostname()}]:\ %(%M%t%)%(\"(%{expand(\"%:~:h\")}\)%)%(\ a:%a%)
+endif
 set magic               " Make sure we use new-style portable regexp rules
 set visualbell          " Audible bells? Ew.
 
@@ -104,7 +104,7 @@ set formatoptions=roqcnt1
 set path+=~/sw/vim/
 
 if has("spell")
-	set spell		" Turn spelling on by default
+	set nospell		" Turn spelling off by default
 				" Toggle spelling with F4 key
 	map <F4> :set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn, 3 * &spell, 3)<CR>
 
@@ -137,7 +137,7 @@ vnoremap <BS> d
 " Make Ctrl-C act like Cut
 vnoremap <C-X> "+x
 
-" Override Cmd-S / Ctrl-S to do a save
+" Override Ctrl-S to do a save
 noremap <C-S>   :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
 inoremap <C-S>  <C-O>:update<CR>
@@ -249,7 +249,7 @@ if has("autocmd")
   augroup END
 
   augroup skeletons
-        autocmd! "Remove existing autocommands in this group
+        autocmd!
 "        autocmd BufNewFile *.c      0r ~/vim/skeleton.c
 "        autocmd BufNewFile *.h      0r ~/vim/skeleton.h
 "        autocmd BufNewFile *.java   0r ~/vim/skeleton.java
