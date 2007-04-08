@@ -24,16 +24,7 @@ stty -ixon # disable XON/XOFF flow control (^s/^q)
 
 set -o ignoreeof noclobber
 
-if [ $(uname) == "SunOS" ]; then
-	if [ -x /opt/sfw/bin/gls ]; then # GNU ls is better than Solaris ls
-		alias ls="/opt/sfw/bin/gls -FAH --color=auto"
-	else
-		alias ls="ls -FAh"
-	fi
-else
-	alias ls="ls -FAh --color=auto" # assume nice GNU ls
-fi
-
+alias ls="ls -FAh --color=auto" 
 alias ll="ls -l"
 alias lsl="ls -l"
 alias lv='ls | grep "[^~*]$"'
