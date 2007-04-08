@@ -1,6 +1,13 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # also sourced by ~/.bash_profile 
 
+
+
+# There is no need to set anything past this point for scp and rcp
+if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
+        return
+fi
+
 echo Reading .bashrc >&2
 
 shopt -s cdspell 	# Ignore minor typos
