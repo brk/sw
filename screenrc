@@ -18,8 +18,17 @@ altscreen on		# restore window contents after using (e.g.) vi
 # set every new windows hardstatus line to somenthing descriptive
 # defhstatus "screen: ^En (^Et)"
 
+# terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on" 
 #term screen-256color
 
+
+#caption always "%{Yb} %D %Y-%02m-%02d %0c %{k}|%{G} %l %{k}|%{W} %-w%{+b}%n %t%{-b}%+w"
 # caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
 # hardstatus alwaysignore
 # hardstatus alwayslastline "%Lw"
@@ -62,6 +71,10 @@ termcapinfo   xterm 'XC=K%,%\E(B,[\304,\\\\\326,]\334,{\344,|\366,}\374,~\337'
 # More fixes for the IBM 3151.  Force the terminal's backspace (^H) to generate
 # the required ^?.  (This renders ^H unusable for help from the terminal.)
 #bindkey -k kb stuff "\177"
+
+
+# pgup pgdn for xterm
+termcapinfo xterm*|rxvt* 'ti@:te@'
 
 
 
