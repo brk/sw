@@ -71,6 +71,9 @@ try_include () {
                 source $1
         fi
 }
+quiet () { "$@" &>/dev/null; }
+
+export -f mkcd try_include quiet
 # Get the current revision of a repository
 svn_revision () {
   svn info $@ | awk '/^Revision:/ {print $2}'
@@ -98,10 +101,9 @@ which () {
 export -f which
 fi
 
-export -f mkcd try_include
 
 
-try_include .bashrc
+try_include ~/.bashrc
 try_include ~/sw/bash_profile.sh
 try_include ~/sw/g.bash
 

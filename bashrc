@@ -17,9 +17,10 @@ shopt -s checkwinsize 	# So resizing putty in vim doesn't confuse bash
 shopt -s extglob 	# Enable more powerful pattern matching (Pathname Expansion)
 shopt -s histappend	# Append rather than overwrite history to disk
 shopt -s histreedit	# So we get to re-edit failed history substitutions
-shopt -s histverify 	# So we get to manually verify history substitutions
 shopt -s no_empty_cmd_completion # Don't bother completing empty lines
 shopt -s nocaseglob # Do case-insensitive pathname expansion
+
+shopt -u histverify	# Histverify forces expand-tilde behavior, undesirably
 
 stty -ixon # disable XON/XOFF flow control (^s/^q) 
 

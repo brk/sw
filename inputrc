@@ -17,6 +17,7 @@ M-t: "echo Using ~/sw/inputrc mt"
   "\C-x\C-dm": dump-macros
   "\C-x\C-dv": dump-variables
   "\C-x\C-df": dump-functions
+  "\C-x\C-du": "echo mvf\n"
 $endif
 
 # make tab cycle through completions
