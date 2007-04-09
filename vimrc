@@ -116,7 +116,10 @@ endif
 " ========================= HIGHLIGHTING =========================
 
 if expand("$ANSWERBACK") == "PuTTY"
-	set background=dark
+        hi clear StatusLine
+        hi StatusLine ctermfg=7 ctermbg=8
+        set t_Co=256
+	"set background=dark
 endif
 
 "The following should be done automatically for the default colour scheme
