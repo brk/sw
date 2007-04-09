@@ -12,19 +12,24 @@
 
 $if Bash
   Space: magic-space
+M-t: "echo Using ~/sw/inputrc mt"
+#C-t: "echo Using ~/sw/inputrc ct"
+  "\C-x\C-dm": dump-macros
+  "\C-x\C-dv": dump-variables
+  "\C-x\C-df": dump-functions
 $endif
 
 # make tab cycle through completions
-"\t": menu-complete
+Tab: menu-complete
 
 # Delete key forward deletes a character
-"\e[3~": delete-char
+"\e[3~": delete-char-or-list
 
 # Home and End
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
 
-# Control + Left/Right Arrow 
+# Control + Left/Right Arrow
 #"\e[5C": end-of-line
 #"\e[5D": beginning-of-line
 "\e[5C": forward-word
@@ -54,7 +59,7 @@ $endif
 #"\e[C": forward-char
 #"\e[D": backward-char
 
-# F10 
+# F10
 "\e[21~": beginning-of-line
 
 "\e[1~": beginning-of-line
@@ -68,16 +73,17 @@ set bell-style visible
 # Don't (disruptively) expand tildes in commands
 set expand-tilde off
 set mark-directories on
-set mark-symliked-directories on
+set mark-symlinked-directories on
 set completion-ignore-case on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set visible-stats on
-
-set convert-meta off
+# Disable use of 8-bit (accented) characters
+set convert-meta on
 set input-meta on
 set output-meta on
 
+set bogus-variable on
 #set edit-mode vi
 
 # Include system wide settings which are ignored
