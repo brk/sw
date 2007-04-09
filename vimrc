@@ -170,6 +170,8 @@ imap <F2> <ESC>:set hlsearch!<CR>a
 "  inoremap <silent><PageDown> <C-r>=pumvisible()?"\<lt>PageDown>\<lt>C-p>\<lt>C-n>":"\<lt>PageDown>"<CR>
 "  inoremap <silent><PageUp>   <C-r>=pumvisible()?"\<lt>PageUp>\<lt>C-p>\<lt>C-n>":"\<lt>PageUp>"<CR>
 
+cabbrev vim e           " :vim is equivalent to :e
+
 if v:version > 700	" Force use of tabs in Vim 7
     nnoremap gf <C-W>gf
     cabbrev  e  tabe

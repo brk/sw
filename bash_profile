@@ -1,14 +1,15 @@
+#!/bin/bash
 # Sourced at login.
 # Exported variables go here, most other stuff goes in .bashrc
 
 echo Sourcing bash_profile >&2
 
-export PATH=~/sw/bin:/usr/local/bin:/sw/bin:$PATH
+umask 022 # Create new files as u=rwx, g=rx, o=rx
+
+export PATH=~/sw/bin:/usr/local/bin:/sw/bin:$PATH:.
 export LD_LIBRARY_PATH=~/sw/lib:/usr/local/lib:$LD_LIBRARY_PATH
 
 export CDPATH=".:..:~:~/links/"
-# always append last history line at every prompt
-export PROMPT_COMMAND='history -a'
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export EDITOR="vim"
 # Make all grep calls use full extended regular expressions 
@@ -51,12 +52,43 @@ set_prompt () {
 	# \[\e]1;icon-title\007\e]2;main-title\007\]
 }
 
+# always append last history line at every prompt
+export PROMPT_COMMAND='history -a'
+# Change the window title of X terminals
+#case ${TERM} in
+#        xterm*|rxvt*|Eterm|aterm|kterm|gnome)
+#                PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
+#                ;;
+#        screen)
+#                PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
+#                ;;
+#esac
+
 mkcd () { mkdir $1 && cd $1; }
 try_include () {
         if [ -f $1 ]; then
                 source $1
         fi
 }
+# Get the current revision of a repository
+svn_revision () {
+  svn info $@ | awk '/^Revision:/ {print $2}'
+}
+export -f svn_revision
+
+# Does an svn up and then displays the changelog between your previous
+# version and what you just updated to.
+svn_up_and_log () {
+  local old_revision=`svn_revision $@`
+  local first_update=$((${old_revision} + 1))
+  svn up -q $@
+  if [ $(svn_revision $@) -gt ${old_revision} ]; then
+    svn log -v -rHEAD:${first_update} $@
+  else
+    echo "No changes."
+  fi
+}
+export -f svn_up_and_log
 
 if [ -x ~/sw/bin/which ]; then
 which () {
