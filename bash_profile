@@ -51,6 +51,7 @@ set_prompt () {
 	# http://en.tldp.org/HOWTO/Bash-Prompt-HOWTO/xterm-title-bar-manipulations.html
 	# \[\e]1;icon-title\007\e]2;main-title\007\]
 }
+export -f set_prompt
 
 # always append last history line at every prompt
 export PROMPT_COMMAND='history -a'
