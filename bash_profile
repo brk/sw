@@ -12,7 +12,7 @@ export LD_LIBRARY_PATH=~/sw/lib:/usr/local/lib:$LD_LIBRARY_PATH
 export CDPATH=".:..:~:~/links/"
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export EDITOR="vim"
-# Make all grep calls use full extended regular expressions 
+# Make all grep calls use full extended regular expressions
 export GREP_OPTIONS="-E --color=auto"
 export LESS="--long-prompt --quiet --line-numbers"
 export LESSSECURE=1
@@ -21,7 +21,7 @@ export PAGER="less"
 export SCREENRC=~/sw/screenrc
 export INPUTRC=~/sw/inputrc
 
-[ -f ~/sw/dircolors ] && which dircolors >/dev/null && eval `dircolors -b ~/sw/dircolors`
+[ -f ~/sw/dircolors ] && quiet type dircolors && eval "`dircolors -b ~/sw/dircolors`"
 
 set_prompt () {
 	# ========== BASH COLOR CODES ===========
@@ -47,7 +47,7 @@ set_prompt () {
 	export PS1="\[$titlebar\]$datetime $pretty_cwd \$ "
 	# Prefixing the prompt with a colon means that if you copy-and-paste
 	# and entire prompt string by accident, no harm done -- colon is nop
-	
+
 	# http://en.tldp.org/HOWTO/Bash-Prompt-HOWTO/xterm-title-bar-manipulations.html
 	# \[\e]1;icon-title\007\e]2;main-title\007\]
 }
@@ -73,12 +73,10 @@ try_include () {
 }
 quiet () { "$@" &>/dev/null; }
 
-export -f mkcd try_include quiet
 # Get the current revision of a repository
 svn_revision () {
   svn info $@ | awk '/^Revision:/ {print $2}'
 }
-export -f svn_revision
 
 # Does an svn up and then displays the changelog between your previous
 # version and what you just updated to.
@@ -92,7 +90,6 @@ svn_up_and_log () {
     echo "No changes."
   fi
 }
-export -f svn_up_and_log
 
 if [ -x ~/sw/bin/which ]; then
 which () {
@@ -101,7 +98,7 @@ which () {
 export -f which
 fi
 
-
+export -f mkcd try_include quiet svn_revision svn_up_and_log
 
 try_include ~/.bashrc
 try_include ~/sw/bash_profile.sh
