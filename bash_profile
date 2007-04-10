@@ -65,18 +65,14 @@ export PROMPT_COMMAND='history -a'
 #                ;;
 #esac
 
-mkcd () { mkdir $1 && cd $1; }
-try_include () {
-        if [ -f $1 ]; then
-                source $1
-        fi
-}
-quiet () { "$@" &>/dev/null; }
+mkcd        () { mkdir $1 && cd $1; }
+try_include () { [ -f $1 ] && source $1; }
+wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
+unwrap      () { bzip2 -cd $1 | tar -xvf -; }
+quiet       () { "$@" &>/dev/null; }
 
 # Get the current revision of a repository
-svn_revision () {
-  svn info $@ | awk '/^Revision:/ {print $2}'
-}
+svn_revision () { svn info $@ | awk '/^Revision:/ {print $2}' ; }
 
 # Does an svn up and then displays the changelog between your previous
 # version and what you just updated to.
@@ -91,14 +87,14 @@ svn_up_and_log () {
   fi
 }
 
-if [ -x ~/sw/bin/which ]; then
+if [ -x ~/sw/bin/which ]; then # assume this is souped-up GNU which
 which () {
 	(alias; declare -f) | ~/sw/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
 }
 export -f which
 fi
 
-export -f mkcd try_include quiet svn_revision svn_up_and_log
+export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap
 
 try_include ~/.bashrc
 try_include ~/sw/bash_profile.sh
