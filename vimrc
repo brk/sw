@@ -186,7 +186,12 @@ endif
 " ========================= Register Default Mappings ===================
 let @i="\"rywjdw\"rPb"	" This is a macro for creating incrmenting lists
 
+
+" ========================= Plugin Options: =========================
+let g:detectindent_preferred_expandtab = 1
+let g:detectindent_preferred_indent = 4
 let g:is_bash=1             " Default shell syntax is bash, not ksh
+
 " ========================= File syntax options: =========================
 let c_comment_strings=1         " Highlight strings in C comments
 let lisp_rainbow = 1
