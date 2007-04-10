@@ -90,6 +90,12 @@ set tags+=~/.vim/systags
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
+if has("multi_byte")
+    set encoding=utf-8	" Be modern, use utf-8 encoding everywhere
+    set termencoding=utf-8
+    set fileencoding=utf-8
+endif
+
 if has("vms")
   set nobackup          " do not keep a backup file, use versions instead
 else
@@ -119,7 +125,10 @@ if expand("$ANSWERBACK") == "PuTTY"
         hi clear StatusLine
         hi StatusLine ctermfg=7 ctermbg=8
         set t_Co=256
+	set t_AB=[48;5;%dm
+	set t_AF=[38;5;%dm
 	"set background=dark
+	let g:inkpot_black_background = 1
 endif
 
 "The following should be done automatically for the default colour scheme
@@ -179,9 +188,6 @@ if v:version > 700	" Force use of tabs in Vim 7
     nnoremap gf <C-W>gf
     cabbrev  e  tabe
 endif
-
-"display RGB colour under the cursor eg #445588
-:nmap <leader>c :hi Normal guibg=#<c-r>=expand("<cword>")<cr><cr>
 
 " ========================= Register Default Mappings ===================
 let @i="\"rywjdw\"rPb"	" This is a macro for creating incrmenting lists
