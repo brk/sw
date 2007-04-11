@@ -26,11 +26,18 @@ stty -ixon # disable XON/XOFF flow control (^s/^q)
 
 set -o ignoreeof noclobber
 
+# human readable default calls
+alias df='df -h'
+alias du='du -h'
 alias ls="ls -FAh --color=auto" 
+
+alias all='type -a'
+
 alias ll="ls -l"
 alias lsl="ls -l"
 alias lv='ls | grep "[^~*]$"'
 alias more='less'
+alias less='less -r' # raw control chars
 alias vim="vim -X"
 alias pscp="scp -pr"
 
@@ -43,6 +50,6 @@ alias ....="cd ../../.."
 
 try_include ~/sw/bash_completion.sh
 try_include ~/sw/bashrc.sh
-set_prompt
+type -p set_prompt && set_prompt    # type -p silently verifies functionhood
 
 echo Done reading .bashrc >&2
