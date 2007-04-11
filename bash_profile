@@ -6,10 +6,17 @@ echo Sourcing bash_profile >&2
 
 umask 022 # Create new files as u=rwx, g=rx, o=rx
 
-export PATH=~/sw/bin:/usr/local/bin:/sw/bin:$PATH:.
-export LD_LIBRARY_PATH=~/sw/lib:/usr/local/lib:$LD_LIBRARY_PATH
+# A few important utility functions used by the rest of the bash scripts
+quiet       () { "$@" &>/dev/null; }
+try_include () { [ -f $1 ] && source $1; }
+prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
 
-export CDPATH=".:..:~:~/links/"
+try_include paths.bash # System-specific *PATH* variables
+
+export PATH=~/sw/bin:$PATH:.	# ~/sw/ is the only globally dependable path
+export LD_LIBRARY_PATH=~/sw/lib:$LD_LIBRARY_PATH
+
+export CDPATH=".:..:~:~/sw/links/"
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export EDITOR="vim"
 # Make all grep calls use full extended regular expressions
@@ -36,10 +43,8 @@ export PROMPT_COMMAND='history -a'
 #esac
 
 mkcd        () { mkdir $1 && cd $1; }
-try_include () { [ -f $1 ] && source $1; }
 wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
 unwrap      () { bzip2 -cd $1 | tar -xvf -; }
-quiet       () { "$@" &>/dev/null; }
 
 # Get the current revision of a repository
 svn_revision () { svn info $@ | awk '/^Revision:/ {print $2}' ; }
@@ -67,7 +72,7 @@ fi
 export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap
 
 try_include ~/sw/prompt.bash
-try_include ~/.bashrc
+try_include ~/sw/bashrc
 try_include ~/sw/bash_profile.sh
 try_include ~/sw/g.bash
 
