@@ -262,8 +262,6 @@ if has("autocmd")
   autocmd BufEnter  ?akefile*   set include=^s\=include
   autocmd BufLeave  ?akefile*   set include&
 
-  autocmd BufEnter dircolors set filetype=dircolors
-
   augroup END
 
   augroup skeletons
