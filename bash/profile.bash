@@ -13,10 +13,10 @@ prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
 
 try_include "~/sw/bash/local/paths.bash" # System-specific *PATH* variables
 
-export PATH=~/sw/bin:$PATH:.	# ~/sw/ is the only globally dependable path
-export LD_LIBRARY_PATH=~/sw/lib:$LD_LIBRARY_PATH
+export PATH=~/sw/local/bin:$PATH:.	# ~/sw/ is the only globally dependable path
+export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
 
-export CDPATH=".:..:~:~/sw/links/"
+export CDPATH=".:..:~:~/sw/local/links/"
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export EDITOR="vim"
 # Make all grep calls use full extended regular expressions
@@ -62,9 +62,9 @@ svn_up_and_log () {
   fi
 }
 
-if [ -x ~/sw/bin/which ]; then # assume this is souped-up GNU which
+if [ -x ~/sw/local/bin/which ]; then # assume this is souped-up GNU which
 which () {
-	(alias; declare -f) | ~/sw/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+	(alias; declare -f) | ~/sw/local/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
 }
 export -f which
 fi
