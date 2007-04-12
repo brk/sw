@@ -18,6 +18,7 @@ export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
 
 export CDPATH=".:..:~:~/sw/local/links/"
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
+export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing
 export EDITOR="vim"
 # Make all grep calls use full extended regular expressions
 export GREP_OPTIONS="-E --color=auto"
