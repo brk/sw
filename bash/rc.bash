@@ -48,8 +48,9 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 
 
-try_include ~/sw/bash_completion.sh
-try_include ~/sw/bashrc.sh
+try_include ~/sw/bash/bash_completion.sh
+try_include ~/sw/bash/local/rc.bash
+
 type -p set_prompt && set_prompt    # type -p silently verifies functionhood
 
 echo Done reading .bashrc >&2

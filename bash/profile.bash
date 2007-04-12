@@ -11,7 +11,7 @@ quiet       () { "$@" &>/dev/null; }
 try_include () { [ -f $1 ] && source $1; }
 prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
 
-try_include paths.bash # System-specific *PATH* variables
+try_include "~/sw/bash/local/paths.bash" # System-specific *PATH* variables
 
 export PATH=~/sw/bin:$PATH:.	# ~/sw/ is the only globally dependable path
 export LD_LIBRARY_PATH=~/sw/lib:$LD_LIBRARY_PATH
@@ -72,15 +72,14 @@ fi
 export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap
 
 try_include ~/sw/prompt.bash
-try_include ~/sw/bashrc
-try_include ~/sw/bash_profile.sh
+try_include ~/sw/bash/rc.bash
+try_include ~/sw/bash/local/profile.bash
 try_include ~/sw/g.bash
 
-echo -n -e "\005"		# Try to extract terminal emulator identifier string
-read -s -t 1 ANSWERBACK
-export ANSWERBACK		# Ensure that subshells (for e.g. vim) will have it too
-
-
+if [ $TERM == "xterm-putty" ]; then
+    TERM="xterm"
+    export ANSWERBACK="PuTTY"
+fi
 
 #echo -e "\033(0  abcdefghijklmnopqurstuvwxyz \033(B"
 
