@@ -182,7 +182,6 @@ endfunction
 nmap <F2> set hlsearch!<CR>
 imap <F2> <ESC>:set hlsearch!<CR>a
 
-
 "  inoremap <silent><Esc>      <C-r>=pumvisible()?"\<lt>C-e>":"\<lt>Esc>"<CR>
 "  inoremap <silent><CR>       <C-r>=pumvisible()?"\<lt>C-y>":"\<lt>CR>"<CR>
 "  inoremap <silent><Down>     <C-r>=pumvisible()?"\<lt>C-n>":"\<lt>Down>"<CR>
@@ -190,11 +189,8 @@ imap <F2> <ESC>:set hlsearch!<CR>a
 "  inoremap <silent><PageDown> <C-r>=pumvisible()?"\<lt>PageDown>\<lt>C-p>\<lt>C-n>":"\<lt>PageDown>"<CR>
 "  inoremap <silent><PageUp>   <C-r>=pumvisible()?"\<lt>PageUp>\<lt>C-p>\<lt>C-n>":"\<lt>PageUp>"<CR>
 
-cabbrev vim e           " :vim is equivalent to :e
-
 if v:version > 700	" Force use of tabs in Vim 7
     nnoremap gf <C-W>gf
-    cabbrev  e  tabe
 endif
 
 " ========================= Register Default Mappings ===================
@@ -274,11 +270,12 @@ if has("autocmd")
 
   augroup skeletons
         autocmd!
-"        autocmd BufNewFile *.c      0r ~/vim/skeleton.c
-"        autocmd BufNewFile *.h      0r ~/vim/skeleton.h
-"        autocmd BufNewFile *.java   0r ~/vim/skeleton.java
-"        autocmd BufNewFile *.php   0r ~/vim/skeleton.php
-"        autocmd BufNewFile *.html   0r ~/vim/skeleton.html
+"        autocmd BufNewFile *.sh     0r ~/vim/skeletons/skeleton.sh
+"        autocmd BufNewFile *.c      0r ~/vim/skeletons/skeleton.c
+"        autocmd BufNewFile *.h      0r ~/vim/skeletons/skeleton.h
+"        autocmd BufNewFile *.java   0r ~/vim/skeletons/skeleton.java
+"        autocmd BufNewFile *.php   0r ~/vim/skeletons/skeleton.php
+        autocmd BufNewFile *.html   0r ~/vim/skeletons/skeleton.html
   augroup END
 
 
