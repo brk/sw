@@ -85,7 +85,7 @@
 " }}}
 
 if v:version < 700
-  echomsg "snippetsEmu plugin requires Vim version 7 or later"
+"  echomsg "snippetsEmu plugin requires Vim version 7 or later"
   finish
 endif
 

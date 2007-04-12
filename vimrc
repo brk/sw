@@ -19,7 +19,9 @@ endif
 set nocompatible
 
 set foldcolumn=4        " Give a somewhat-wide folding gutter
+if v:version >= 700
 set numberwidth=5       " And a not-too-wide numbering gutter
+endif
 set number              " Show line numbers
 set shortmess+=I        " Don't show welcome screen
 set history=50          " keep 50 lines of command line history
@@ -59,8 +61,9 @@ set listchars=tab:>-,trail:.,extends:>
 highlight RedundantSpaces term=standout ctermbg=red guibg=red
 match RedundantSpaces /\s\+$\| \+\ze\t/
 "http://www.vim.org/tips/tip.php?tip_id=396   
-
+if v:version >= 700
 set virtualedit=onemore
+endif
 set whichwrap=b,s,[,]   " Backspace goes to prev line, space to next line
 
 " ================== NON-WHITESPACE FORMATTING ==================
@@ -68,21 +71,26 @@ set whichwrap=b,s,[,]   " Backspace goes to prev line, space to next line
 " at the start of `middle' rows which (looks nicer and) avoids asterisks used
 " for bullet lists being treated like C comments; then define a bullet list
 " style for single stars (like already is for hyphens):
+if has("comments")
 set comments-=s1:/*,mb:*,ex:*/
 set comments+=s:/*,mb:**,ex:*/
 set comments+=fb:*
+endif
 
 set wrapmargin=2
 set scrolloff=3         " Keep a few context lines above & below the cursor
 set sidescrolloff=5
 
+if has("wildmenu")
 set wildmenu
 set wildmode=list:longest,full
 set wildignore=.svn,CVS,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif
+endif
 
 set guioptions-=e       " don't use native widgets for tabs, prefer text tabs
-set antialias           " For Mac OS X only: use antialiased fonts
-set switchbuf+=usetab
+if v:version >= 700
+   set switchbuf+=usetab
+endif
 
 "% ctags -R -f ~/.vim/systags /usr/include /usr/local/include
 set tags+=~/.vim/systags
