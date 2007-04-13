@@ -306,5 +306,6 @@ if has("autocmd")
 
 endif " has("autocmd")
 
-
-source $HOME/sw/local/rc.vim
+if filereadable("$HOME/sw/local/rc.vim")
+    source $HOME/sw/local/rc.vim
+endif

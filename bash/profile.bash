@@ -2,7 +2,7 @@
 # Sourced at login.
 # Exported variables go here, most other stuff goes in .bashrc
 
-echo loading profile.bash >&2
+echo Reading bash/profile >&2
 
 umask 022 # Create new files as u=rwx, g=rx, o=rx
 
@@ -11,7 +11,7 @@ quiet       () { "$@" &>/dev/null; }
 try_include () { [ -f $1 ] && source $1; }
 prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
 
-try_include ~/sw/bash/local/paths.bash # System-specific *PATH* variables
+try_include ~/sw/local/paths.bash # System-specific *PATH* variables
 
 export PATH=~/sw/local/bin:$PATH:.	# ~/sw/ is the only globally dependable path
 export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
@@ -74,13 +74,14 @@ export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap
 
 try_include ~/sw/bash/prompt.bash
 try_include ~/sw/bash/rc.bash
-try_include ~/sw/bash/local/profile.bash
-try_include ~/sw/g.bash
+try_include ~/sw/bash/g.bash
+try_include ~/sw/local/profile.bash
 
 if [ $TERM == "xterm-putty" ]; then
     TERM="xterm"
-    export ANSWERBACK="PuTTY"
+    ANSWERBACK="PuTTY"
 fi
+export ANSWERBACK
 
 #echo -e "\033(0  abcdefghijklmnopqurstuvwxyz \033(B"
 

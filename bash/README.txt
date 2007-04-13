@@ -7,9 +7,9 @@ They add common-denominator aliases, functions, and make sure that ~/sw/bin
     specific customizations. Such customizations should go in the local
     subdirectory, under these filenames:
 
-            ~/sw/bash/local/paths.bash
-            ~/sw/bash/local/profile.bash
-            ~/sw/bash/local/rc.bash
+            ~/sw/local/paths.bash
+            ~/sw/local/profile.bash
+            ~/sw/local/rc.bash
 
 The bash_completion files are responsible for setting up smart programmable
     completion for versions of bash later than 2.05b. The bash_completion.d

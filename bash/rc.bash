@@ -1,6 +1,6 @@
 #!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
-# also sourced by ~/.bash_profile 
+# also sourced by ~/.bash_profile
 
 
 
@@ -9,7 +9,7 @@ if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
         return
 fi
 
-echo Reading rc.bash >&2
+echo "Reading bash/rc" >&2
 
 shopt -s cdspell 	# Ignore minor typos
 shopt -s dotglob 	# Include dotfiles in expansions
@@ -41,6 +41,7 @@ alias less='less -r' # raw control chars
 alias vim="vim -X"
 alias pscp="scp -pr"
 
+alias cs="cd"
 alias up2="cd ../../"
 alias cd..='cd ..'
 alias ..="cd .."
@@ -49,8 +50,7 @@ alias ....="cd ../../.."
 
 
 try_include ~/sw/bash/bash_completion.sh
-try_include ~/sw/bash/local/rc.bash
+try_include ~/sw/local/rc.bash
 
 type -p set_prompt && set_prompt    # type -p silently verifies functionhood
 
-echo Done reading rc.bash >&2
