@@ -91,6 +91,7 @@ enable-auto-props = yes
 ### Note that auto-props functionality must be enabled, which
 ### is typically done by setting the 'enable-auto-props' option.
 INSTALL = svn:eol-style=native
+INSTALL.txt = svn:eol-style=native
 KEYS = svn:eol-style=native
 Makefile = svn:eol-style=native
 README = svn:eol-style=native
