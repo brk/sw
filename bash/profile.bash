@@ -46,6 +46,7 @@ export PROMPT_COMMAND='history -a'
 mkcd        () { mkdir $1 && cd $1; }
 wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
 unwrap      () { bzip2 -cd $1 | tar -xvf -; }
+sibs        () { dirname `which $1` | xargs ls } # List siblings of a given binary
 
 # Get the current revision of a repository
 svn_revision () { svn info $@ | awk '/^Revision:/ {print $2}' ; }
