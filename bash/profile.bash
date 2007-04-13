@@ -46,7 +46,7 @@ export PROMPT_COMMAND='history -a'
 mkcd        () { mkdir $1 && cd $1; }
 wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
 unwrap      () { bzip2 -cd $1 | tar -xvf -; }
-sibs        () { dirname `which $1` | xargs ls } # List siblings of a given binary
+sibs        () { dirname `which $1` | xargs ls ; } # List siblings of a given binary
 
 # Get the current revision of a repository
 svn_revision () { svn info $@ | awk '/^Revision:/ {print $2}' ; }
@@ -64,14 +64,7 @@ svn_up_and_log () {
   fi
 }
 
-if [ -x ~/sw/local/bin/which ]; then # assume this is souped-up GNU which
-which () {
-	(alias; declare -f) | ~/sw/local/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
-}
-export -f which
-fi
-
-export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap
+export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap sibs
 
 try_include ~/sw/bash/prompt.bash
 try_include ~/sw/bash/rc.bash
