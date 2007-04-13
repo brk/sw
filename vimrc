@@ -52,6 +52,7 @@ set tabstop=8           " Interpret existing hard tabs as 8 spaces
 set shiftwidth=4        " But new 'tabs' are really 4 spaces
 set shiftround          " Always round indent to multiple of 'shiftwidth' spaces
 
+set fileformat=unix	" Default to Unix line-endings, more portable generally
 "use :set list! to toggle visible whitespace on/off
 set listchars=tab:>-,trail:.,extends:>
 
