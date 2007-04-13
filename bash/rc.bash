@@ -9,7 +9,7 @@ if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
         return
 fi
 
-echo Reading .bashrc >&2
+echo Reading rc.bash >&2
 
 shopt -s cdspell 	# Ignore minor typos
 shopt -s dotglob 	# Include dotfiles in expansions
@@ -53,4 +53,4 @@ try_include ~/sw/bash/local/rc.bash
 
 type -p set_prompt && set_prompt    # type -p silently verifies functionhood
 
-echo Done reading .bashrc >&2
+echo Done reading rc.bash >&2

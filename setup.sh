@@ -4,9 +4,9 @@ function make_backup { [ -f $1 ] && mv $1 $1.bak; }
 
 # Makes a link AT $1 POINTING TO $2
 # Note that this is the opposite semantics of `ln`
-function link_to { 
+function link_to {
 	if [[ -h $1 ]]; then # if it's a symlink
-		rm $1; # relink it (might link to same file as old link, that's okay)
+		rm $1 # relink it (might link to same file as old link, that's okay)
 	else # it's a regular file
 		make_backup $1
 	fi
@@ -29,3 +29,4 @@ if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
 else	# Thankfully *nix-y is much better
 	link_to ~/.subversion/config ~/sw/svn-config
 fi
+

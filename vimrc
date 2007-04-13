@@ -110,6 +110,7 @@ else
   set backup            " keep a backup file
 endif
 
+set mouse=a
 behave mswin
 set mousemodel=popup_setpos
 
@@ -192,6 +193,14 @@ imap <F2> <ESC>:set hlsearch!<CR>a
 if v:version > 700	" Force use of tabs in Vim 7
     nnoremap gf <C-W>gf
 endif
+
+" readline-like keybindings for the command-line
+cnoremap <C-A> <Home>
+cnoremap <C-F> <Right>
+cnoremap <C-B> <Left>
+cnoremap <Esc>b <S-Left>
+cnoremap <Esc>f <S-Right>
+
 
 " ========================= Register Default Mappings ===================
 let @i="\"rywjdw\"rPb"	" This is a macro for creating incrmenting lists
@@ -295,3 +304,6 @@ if has("autocmd")
 "  augroup END
 
 endif " has("autocmd")
+
+
+source $HOME/sw/local/rc.vim
