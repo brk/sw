@@ -25,8 +25,8 @@ if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
 	# Subversion stores its config file in a weird place
 	# And NTFS junction points are too dangerous for my taste
 	make_backup "$APPDATA/Subversion/config"
-	cp "$HOMEPATH/sw/svn-config" "$APPDATA/Subversion/config"
+	cp "$HOMEPATH/sw/defaults/svn-config" "$APPDATA/Subversion/config"
 else	# Thankfully *nix-y is much better
-	link_to ~/.subversion/config ~/sw/svn-config
+	link_to ~/.subversion/config ~/sw/defaults/svn-config
 fi
 
