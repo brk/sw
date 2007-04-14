@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Allow for machine-specific prompts
+if [ -f ~/sw/local/prompt.bash ]; then
+    source ~/sw/local/prompt.bash
+    return
+fi
+
 set_prompt () {
 	# ========== BASH COLOR CODES ===========
 	# Black   0;30   Dark Gray    1;30  Blue        0;34   Light Blue    1;34
@@ -8,10 +14,6 @@ set_prompt () {
 	# Brown   0;33   Yellow       1;33  Light Gray  0;37   White         1;37
 	local user="\u"
 	local machine="\h" # to first dot
-	if [ ${BASH_VERSINFO[0]} -ge "3" ]
-		then local datetime="\D{%F %T}" #"2007-04-03 17:51:50"
-		else local datetime="\d" # gives "Tue Apr  3 17:37:13"
-	fi
 	local datetime="$(date +%Y-%m-%d\ %H:%M:%S)"
 	local cwd="\w" # "~/.ssh"
 	local titlebar="\e]2;$user@$machine $cwd\a"
@@ -28,6 +30,6 @@ set_prompt () {
 	# http://en.tldp.org/HOWTO/Bash-Prompt-HOWTO/xterm-title-bar-manipulations.html
 	# \[\e]1;icon-title\007\e]2;main-title\007\]
 }
-#export -f set_prompt
+
 set_prompt
 
