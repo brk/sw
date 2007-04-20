@@ -1,0 +1,24 @@
+﻿a[href^="#"] {
+  padding-right: 6px;
+  background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%06\
+%00%00%00%08%08%06%00%00%00%DA%C6%8E8%00%00%00%09pHYs%00%00\
+%0B%13%00%00%0B%13%01%00%9A%9C%18%00%00%00%07tIME%07%D7%03\
+%1D%10%0D*T%0FgN%00%00%00!IDAT%08%D7c%F8%0F%05%0C%0C%0C%A84\
+%8C%83%81A%12%BF%FF%FE%23Q%07N%3B%B0%01%D2%25%00N4%8Fj%C7U\
+%97%89%00%00%00%00IEND%AEB%60%82") center right no-repeat;
+}
+
+a[href$=".pdf"]:after {
+        font-size: smaller;
+        content: " [pdf]";
+}
+
+@-moz-document
+		url-prefix(http://google.com/search),
+		url-prefix(http://www.google.com/search),
+		url-prefix(http://mail.google.com/mail/) {
+	.ch,
+	table[align="right"] {
+		display: none ! important;
+	}
+}
