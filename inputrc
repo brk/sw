@@ -73,6 +73,7 @@ Tab: menu-complete
 set bell-style visible
 # Don't (disruptively) expand tildes in commands
 set expand-tilde off
+set match-hidden-files on
 set mark-directories on
 set mark-symlinked-directories on
 set completion-ignore-case on
