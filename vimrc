@@ -131,7 +131,7 @@ endif
 
 " ========================= HIGHLIGHTING =========================
 
-if expand("$ANSWERBACK") == "PuTTY"
+if &term =~ "putty"
         hi clear StatusLine
         hi StatusLine ctermfg=7 ctermbg=8
         set t_Co=256
