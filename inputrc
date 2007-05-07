@@ -12,11 +12,13 @@
 
 $if Bash
   Space: magic-space
+# Meta-T is "test"
 M-t: "echo Using ~/sw/inputrc mt"
 #C-t: "echo Using ~/sw/inputrc ct"
   "\C-x\C-dm": dump-macros
   "\C-x\C-dv": dump-variables
   "\C-x\C-df": dump-functions
+# "Dump Usage"
   "\C-x\C-du": "echo mvf\n"
 $endif
 

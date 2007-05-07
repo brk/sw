@@ -134,9 +134,6 @@ endif
 if &term =~ "putty"
         hi clear StatusLine
         hi StatusLine ctermfg=7 ctermbg=8
-        set t_Co=256
-	set t_AB=[48;5;%dm
-	set t_AF=[38;5;%dm
 	"set background=dark
 	let g:inkpot_black_background = 1
 endif
@@ -246,6 +243,9 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+" Sometimes my finger stays on the shift key a little too long.
+command -nargs=1 Tabedit :tabedit <args>
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   " Enable file type detection.
@@ -268,9 +268,6 @@ if has("autocmd")
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
-
-  " Always edit C files at the first function
-  autocmd BufRead   *.c,*.h,*.cpp,*.C   1;/^{
 
   " For makefiles
   autocmd BufEnter  ?akefile*   set include=^s\=include

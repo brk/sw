@@ -28,6 +28,7 @@ export PAGER="less"
 
 export SCREENRC=~/sw/screenrc
 export INPUTRC=~/sw/inputrc
+export TERMINFO=~/sw/local/terminfo
 
 [ -f ~/sw/dircolors ] && quiet type dircolors && eval "`dircolors -b ~/sw/dircolors`"
 
