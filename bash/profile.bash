@@ -71,6 +71,7 @@ try_include ~/sw/bash/prompt.bash
 try_include ~/sw/bash/rc.bash
 try_include ~/sw/bash/g.bash
 try_include ~/sw/local/profile.bash
+# Bash completion is loaded by rc.bash
 
 #echo -e "\033(0  abcdefghijklmnopqurstuvwxyz \033(B"
 
