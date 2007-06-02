@@ -50,6 +50,7 @@ set noautowriteall      " But not :qa (when discarding changes may be better)
 set expandtab           " Always convert tabs to spaces
 set tabstop=8           " Interpret existing hard tabs as 8 spaces
 set shiftwidth=4        " But new 'tabs' are really 4 spaces
+set softtabstop=4       " Treat four spaces in a row like a tab
 set shiftround          " Always round indent to multiple of 'shiftwidth' spaces
 
 set fileformat=unix	" Default to Unix line-endings, more portable generally

@@ -3079,9 +3079,9 @@ _cd()
 	return 0
 }
 if shopt -q cdable_vars; then
-    complete -v -F _cd $nospace $filenames cd
+    complete -v -F _cd $nospace $filenames cd pathexpand
 else
-    complete -F _cd $nospace $filenames cd
+    complete -F _cd $nospace $filenames cd pathexpand
 fi
 
 # A meta-command completion function for commands like sudo(8), which need to
