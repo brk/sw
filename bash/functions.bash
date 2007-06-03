@@ -35,6 +35,9 @@ reload () {
 }
 
 pathexpand () {
+    if [[ ! $(type -t readlink) ]]; then
+        return
+    fi
     local PATH=$(readlink $(pwd))
     if [[ $PATH && $PATH != "/home/.ambrosia/eschew" ]]; then
        \cd $PATH
