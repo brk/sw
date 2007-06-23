@@ -1,13 +1,19 @@
 #!/bin/bash
 
+matches     () { if [ $(expr match "$1" ".*$2") -gt 0 ]; then return 0; else return 1; fi; }
 better_cd   () { \cd $1 && pathexpand; }
 mkcd        () { mkdir $1 && cd $1; }
-wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
-unwrap      () { bzip2 -cd $1 | tar -xvf -; }
 sibs        () { dirname `which $1` | xargs ls ; } # List siblings of a given binary
-
-# Get the current revision of a repository
-svn_revision () { svn info $@ | awk '/^Revision:/ {print $2}' ; }
+wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
+unwrap      () {
+    if matches $1 'bz2' ; then
+        bzip2 -cd $1 | tar -xvf -
+    elif $(matches $1 'gz'); then
+        tar xzvf $1
+    else
+        echo Dunno how to handle filename of $1!
+    fi
+}
 
 # Does an svn up and then displays the changelog between your previous
 # version and what you just updated to.
@@ -31,7 +37,11 @@ replace() {
 }
 
 reload () {
-    try_include ~/sw/bash/profile.bash
+    if [[ -n $1 ]]; then
+        try_include ~/sw/bash/$1
+    else
+        try_include ~/sw/bash/profile.bash
+    fi
 }
 
 pathexpand () {
@@ -44,5 +54,5 @@ pathexpand () {
     fi
 }
 
-export -f mkcd try_include quiet svn_revision svn_up_and_log wrap unwrap sibs
-export -f replace reload pathexpand better_cd
+export -f mkcd try_include quiet svn_up_and_log wrap unwrap sibs
+export -f replace reload pathexpand better_cd matches

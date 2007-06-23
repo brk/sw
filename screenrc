@@ -1,9 +1,9 @@
 startup_message off     # gosh!
 vbell on                # no annoying audible bell, please
-defutf8 on		# UTF-8 everywhere!
+#defutf8 on		# UTF-8 everywhere!
 defflow off		# no ^S/^Q
 
-altscreen on		# restore window contents after using (e.g.) vi
+#altscreen on		# restore window contents after using (e.g.) vi
 
 # Window list at the bottom.
 #hardstatus alwayslastline
@@ -20,11 +20,11 @@ altscreen on		# restore window contents after using (e.g.) vi
 
 # terminfo and termcap for nice 256 color terminal
 # allow bold colors - necessary for some reason
-attrcolor b ".I"
+#attrcolor b ".I"
 # tell screen how to set colors. AB = background, AF=foreground
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+#termcapinfo xterm-putty 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 # erase background with current bg color
-defbce "on" 
+#defbce "on" 
 #term screen-256color
 
 
@@ -43,15 +43,14 @@ termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
 terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
 
 # Tell screen that xterm can have its titlebar function as a hardstatus line
-termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+#termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
 
 #80/132 column switching must be enabled for ^AW to work
 #change init sequence to not switch width
 termcapinfo  xterm Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
 
 # Make the output buffer large for (fast) xterms.
-#termcapinfo xterm* OL=10000
-termcapinfo xterm* OL=100
+termcapinfo xterm* OL=10000
 
 # tell screen that xterm can switch to dark background and has function
 # keys.
@@ -103,7 +102,7 @@ bind ^h
 bind h
 #make them better
 bind 'K' kill
-bind 'W' windowlist
+#bind 'W' windowlist
 bind 'I' login on
 bind 'O' login off
 bind '}' history
