@@ -135,8 +135,18 @@ endif
 if &term =~ "putty"
         hi clear StatusLine
         hi StatusLine ctermfg=7 ctermbg=8
-	"set background=dark
+	set background=dark
 	let g:inkpot_black_background = 1
+endif
+
+if &term =~ "screen.xterm-putty"
+    set ttymouse=xterm2
+endif
+
+" Vim only autodetects xterms as having xterm mouse capabilities...
+if &term =~ "screen-256color"
+    set ttymouse=xterm2
+    set t_Co=256
 endif
 
 "The following should be done automatically for the default colour scheme

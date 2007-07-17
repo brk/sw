@@ -35,3 +35,5 @@ fi
 
 mkdir -p ~/sw/local/bin
 mkdir -p ~/sw/local/links
+
+#tic terminfo.master
