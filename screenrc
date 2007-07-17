@@ -1,14 +1,14 @@
 startup_message off     # gosh!
 vbell on                # no annoying audible bell, please
-#defutf8 on		# UTF-8 everywhere!
+defutf8 on		# UTF-8 everywhere!
 defflow off		# no ^S/^Q
 
-#altscreen on		# restore window contents after using (e.g.) vi
+altscreen on		# restore window contents after using (e.g.) vi
 
 # Window list at the bottom.
-#hardstatus alwayslastline
+hardstatus alwayslastline
 #hardstatus string "%-w%{= BW}%50>%n %t%{-}%+w%<"
-#hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %m/%d %c ]%{W}'
+hardstatus string '%{gk}[ %{G} %h %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %D %m/%d %c ]%{W}'
 
 
 
@@ -20,12 +20,38 @@ defflow off		# no ^S/^Q
 
 # terminfo and termcap for nice 256 color terminal
 # allow bold colors - necessary for some reason
-#attrcolor b ".I"
+attrcolor b ".I"
 # tell screen how to set colors. AB = background, AF=foreground
 #termcapinfo xterm-putty 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 # erase background with current bg color
-#defbce "on" 
+defbce "on"
 #term screen-256color
+
+
+
+# Add stuff to xterm (and cousins) title bars.  This is a moderate abuse of the
+# hardstatus feature--it just puts the hardstatus stuff into an xterm title
+# bar.
+termcapinfo xterm* 'hs:ts=\E]0;:fs=\007:ds=\E]0;screen\007'
+defhstatus "screen  (t) | $USER@H"
+hardstatus off
+
+# Give me some info at the bottom of the screen.  Since hardstatus is in use by
+# the above xterm title hack, the only source of information left is the
+# caption that normally only gets displayed if you have split windows.
+# e.g.:
+# 11:50|Mon|Jan 06|aragorn f  3$ mutt  4$ centericq  5$* less  6-&!$ man  7$ xe
+# (Current window is in reverse bold.)
+# See bottom of file for more complete description.
+#caption always "%?%F%{-b bc}%:%{-b bb}%?%C|%D|%M %d|%H%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f* %t%{-}%+Lw%-0<"
+
+# Make screen messages stand out a little more - black on bright green.
+sorendition "+b kG"
+
+# Variants on Sven's custom messages.
+activity "%c activity -> %n%f %t"
+bell "%c bell -> %n%f %t^G"
+vbell_msg " *beep* "
 
 
 #caption always "%{Yb} %D %Y-%02m-%02d %0c %{k}|%{G} %l %{k}|%{W} %-w%{+b}%n %t%{-b}%+w"
@@ -39,33 +65,33 @@ defflow off		# no ^S/^Q
 #xterm understands both im/ic and doesn't have a status line.
 #Note: Do not specify im and ic in the real termcap/info file as
 #some programs (e.g. vi) will not work anymore.
-termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
-terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+termcap  xterm* hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+terminfo xterm* hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
 
 # Tell screen that xterm can have its titlebar function as a hardstatus line
 #termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
 
 #80/132 column switching must be enabled for ^AW to work
 #change init sequence to not switch width
-termcapinfo  xterm Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
+termcapinfo  xterm* Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
 
 # Make the output buffer large for (fast) xterms.
 termcapinfo xterm* OL=10000
 
 # tell screen that xterm can switch to dark background and has function
 # keys.
-termcapinfo xterm 'VR=\E[?5h:VN=\E[?5l'
-termcapinfo xterm 'k1=\E[11~:k2=\E[12~:k3=\E[13~:k4=\E[14~'
-termcapinfo xterm 'kh=\EOH:kI=\E[2~:kD=\E[3~:kH=\EOF:kP=\E[5~:kN=\E[6~'
+termcapinfo xterm* 'VR=\E[?5h:VN=\E[?5l'
+termcapinfo xterm* 'k1=\E[11~:k2=\E[12~:k3=\E[13~:k4=\E[14~'
+termcapinfo xterm* 'kh=\EOH:kI=\E[2~:kD=\E[3~:kH=\EOF:kP=\E[5~:kN=\E[6~'
 
 # special xterm hardstatus: use the window title.
-termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+termcapinfo xterm* 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
 
 #terminfo xterm 'vb=\E[?5h$<200/>\E[?5l'
-termcapinfo xterm 'vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l'
+termcapinfo xterm* 'vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l'
 
 # emulate part of the 'K' charset
-termcapinfo   xterm 'XC=K%,%\E(B,[\304,\\\\\326,]\334,{\344,|\366,}\374,~\337'
+termcapinfo   xterm* 'XC=K%,%\E(B,[\304,\\\\\326,]\334,{\344,|\366,}\374,~\337'
 
 # More fixes for the IBM 3151.  Force the terminal's backspace (^H) to generate
 # the required ^?.  (This renders ^H unusable for help from the terminal.)
@@ -103,8 +129,8 @@ bind h
 #make them better
 bind 'K' kill
 #bind 'W' windowlist
-bind 'I' login on
-bind 'O' login off
+#bind 'I' login on
+#bind 'O' login off
 bind '}' history
 # f11 and f12, forward and back
 bindkey -k F1 prev
