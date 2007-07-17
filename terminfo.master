@@ -1,4 +1,4 @@
-      screen.xterm-putty|GNU Screen with 256 colors, BCE, and status line,
+screen.xterm-putty|GNU Screen with 256 colors, BCE, and status line,
 	bce, ccc@,
 	initc@, use=xterm+256color, use=screen-s,
 
