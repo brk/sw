@@ -7,7 +7,7 @@ echo Reading bash/profile >&2
 # Something of a catch-22 here. We'd really like to update
 # paths automatically, but we don't know where svn is located
 # unless we've loaded the paths already.
-svn up ~/sw/
+svn up ~/sw/ &
 
 umask 022 # Create new files as u=rwx, g=rx, o=rx
 
