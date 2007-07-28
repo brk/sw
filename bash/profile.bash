@@ -4,6 +4,11 @@
 
 echo Reading bash/profile >&2
 
+# Something of a catch-22 here. We'd really like to update
+# paths automatically, but we don't know where svn is located
+# unless we've loaded the paths already.
+svn up ~/sw/
+
 umask 022 # Create new files as u=rwx, g=rx, o=rx
 
 # A few important utility functions used by the rest of the bash scripts
@@ -52,5 +57,4 @@ try_include ~/sw/local/profile.bash
 # Bash completion is loaded by rc.bash
 
 #echo -e "\033(0  abcdefghijklmnopqurstuvwxyz \033(B"
-
 
