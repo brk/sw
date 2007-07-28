@@ -13,11 +13,6 @@ prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
 
 try_include ~/sw/local/paths.bash # System-specific *PATH* variables
 
-# Something of a catch-22 here. We'd really like to update
-# paths automatically, but we don't know where svn is located
-# unless we've loaded the paths already.
-svn up ~/sw/ >/dev/null &
-
 export PATH=~/sw/local/bin:$PATH:.	# ~/sw/ is the only globally dependable path
 export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
 
