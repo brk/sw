@@ -14,7 +14,7 @@ set_prompt () {
 	# Brown   0;33   Yellow       1;33  Light Gray  0;37   White         1;37
 	local user="\u"
 	local machine="\h" # to first dot
-	local datetime="$(date +%Y-%m-%d\ %H:%M:%S)"
+	local datetime="\$(date +%Y-%m-%d\ %H:%M:%S)"
 	local cwd="\w" # "~/.ssh"
 	local titlebar="\e]2;$user@$machine $cwd\a"
 	local purple="\e[35;1m"

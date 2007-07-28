@@ -62,7 +62,7 @@ set listchars=tab:>-,trail:.,extends:>
 "this rule really applys to everything.
 highlight RedundantSpaces term=standout ctermbg=red guibg=red
 match RedundantSpaces /\s\+$\| \+\ze\t/
-"http://www.vim.org/tips/tip.php?tip_id=396   
+"http://www.vim.org/tips/tip.php?tip_id=396
 if v:version >= 700
 set virtualedit=onemore
 endif
@@ -180,11 +180,11 @@ nmap <silent>  <down> :call SmartDown()<CR>
 function! SmartDown()
     let lastline = line("$")
     let curline  = line(".")
-    if lastline == curline 
+    if lastline == curline
        normal $
-    else    
+    else
        normal j
-    endif   
+    endif
     return ""
 endfunction
 
