@@ -288,12 +288,12 @@ if has("autocmd")
 
   augroup skeletons
         autocmd!
-"        autocmd BufNewFile *.sh     0r ~/vim/skeletons/skeleton.sh
-"        autocmd BufNewFile *.c      0r ~/vim/skeletons/skeleton.c
-"        autocmd BufNewFile *.h      0r ~/vim/skeletons/skeleton.h
-"        autocmd BufNewFile *.java   0r ~/vim/skeletons/skeleton.java
-"        autocmd BufNewFile *.php   0r ~/vim/skeletons/skeleton.php
-        autocmd BufNewFile *.html   0r ~/vim/skeletons/skeleton.html
+"        autocmd BufNewFile *.sh     0r ~/sw/vimfiles/skeletons/skeleton.sh
+"        autocmd BufNewFile *.c      0r ~/sw/vimfiles/skeletons/skeleton.c
+"        autocmd BufNewFile *.h      0r ~/sw/vimfiles/skeletons/skeleton.h
+"        autocmd BufNewFile *.java   0r ~/sw/vimfiles/skeletons/skeleton.java
+"        autocmd BufNewFile *.php   0r ~/sw/vimfiles/skeletons/skeleton.php
+        autocmd BufNewFile *.html   0r ~/sw/vimfiles/skeletons/skeleton.html
   augroup END
 
 
