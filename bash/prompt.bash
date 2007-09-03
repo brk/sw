@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Some terminals just can't deal with the awesomeness below...
+if [ $TERM == 'sun' ]; then
+    export PS1='\u@\h: \w\a \d \t \$ ';
+    return
+fi
+
 # Allow for machine-specific prompts
 if [ -f ~/sw/local/prompt.bash ]; then
     source ~/sw/local/prompt.bash
