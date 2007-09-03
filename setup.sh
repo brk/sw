@@ -26,7 +26,7 @@ if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
 	# And NTFS junction points are too dangerous for my taste
 	make_backup "$APPDATA/Subversion/config"
 	cp ~/sw/defaults/svn-config "$APPDATA\\Subversion\\config"
-	
+
 	# Also, Vim uses _vimrc not .vimrc
 	cp ~/.vimrc ~/_vimrc
 else	# Thankfully *nix-y is much better
@@ -35,5 +35,7 @@ fi
 
 mkdir -p ~/sw/local/bin
 mkdir -p ~/sw/local/links
+
+echo "Home has been made cozy!"
 
 #tic terminfo.master
