@@ -30,7 +30,14 @@ svn_up_and_log () {
 
 replace() {
     if [[ $1 && $2 && $3 ]]; then
-        perl -pi.bak -w -e "s/$1/$2/g;" $3
+        a=$1
+        b=$2
+        shift 2
+        for file in $@
+        do
+            #echo Replacing $a with $b in $file
+            perl -pi.bak -w -e "s/$a/$b/g;" $file
+        done
     else
         echo Syntax: replace old new fileglob
     fi
