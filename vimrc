@@ -112,9 +112,11 @@ else
   set backup            " keep a backup file
 endif
 
-set mouse=a
-behave mswin
+set mouse=a             " Enable mouse support everywhere
+set selectmode=mouse,key
+set keymodel=startsel,stopsel
 set mousemodel=popup_setpos
+set selection=inclusive
 
 set formatoptions=roqcnt1
 
@@ -164,7 +166,7 @@ highlight MatchParen term=bold cterm=bold ctermbg=NONE gui=bold guifg=DarkBlue g
 " GUI-isms, taken from Bram Moolenar's mswin.vim
 " Backspace in Visual mode deletes selection
 vnoremap <BS> d
-" Make Ctrl-C act like Cut
+" Make Ctrl-x act like Cut
 vnoremap <C-X> "+x
 
 " Override Ctrl-S to do a save
@@ -189,8 +191,8 @@ function! SmartDown()
 endfunction
 
 " Make F2 clear search history
-nmap <F2> set hlsearch!<CR>
-imap <F2> <ESC>:set hlsearch!<CR>a
+nmap <F2> :nohlsearch<CR>
+imap <F2> <ESC>:nohlsearch<CR>a
 
 "  inoremap <silent><Esc>      <C-r>=pumvisible()?"\<lt>C-e>":"\<lt>Esc>"<CR>
 "  inoremap <silent><CR>       <C-r>=pumvisible()?"\<lt>C-y>":"\<lt>CR>"<CR>
@@ -212,7 +214,9 @@ cnoremap <Esc>f <S-Right>
 
 
 " ========================= Register Default Mappings ===================
-let @i="\"rywjdw\"rPb"	" This is a macro for creating incrmenting lists
+let @i="\"ryiwjdw\"rP"	" Macro for creating incrementing lists
+" Create a column of N numbers (Y10p), then 10@i to make ten increments
+
 
 
 " ========================= Plugin Options: =========================
