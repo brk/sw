@@ -226,6 +226,7 @@ let g:is_bash=1             " Default shell syntax is bash, not ksh
 
 " ========================= File syntax options: =========================
 let c_comment_strings=1         " Highlight strings in C comments
+let c_space_errors=1            " Highlight problematic whitespace
 let lisp_rainbow = 1
 
 let php_parent_error_close = 1
