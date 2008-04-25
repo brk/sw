@@ -1,10 +1,11 @@
 #!/bin/bash
 
-matches     () { if [ $(expr match "$1" ".*$2") -gt 0 ]; then return 0; else return 1; fi; }
+matches     () { expr "$1" : ".*$2" ; }
 better_cd   () { \cd $1 && pathexpand; }
 mkcd        () { mkdir $1 && cd $1; }
 sibs        () { dirname `which $1` | xargs ls ; } # List siblings of a given binary
 wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
+wrapgz      () { tar cf - $1 | gzip  -c > $1.tar.gz; }
 unwrap      () {
     if matches $1 'bz2' ; then
         bzip2 -cd $1 | tar -xvf -
