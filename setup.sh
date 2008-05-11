@@ -13,6 +13,10 @@ function link_to {
 	ln -s "$2" "$1" # We've cleared the way to lay down a symlink!
 }
 
+mkdir -p ~/sw/local/
+mkdir ~/sw/local/bin
+mkdir ~/sw/local/links
+
 # We technically don't need to make symlinks for .inputrc and .bashrc,
 # but we do anyways for consistency and to reduce typing
 link_to ~/.inputrc	~/sw/inputrc
@@ -20,7 +24,11 @@ link_to ~/.screenrc	~/sw/screenrc
 link_to ~/.vimrc	~/sw/vimrc
 link_to ~/.bashrc	~/sw/bash/rc.bash
 link_to ~/.bash_profile	~/sw/bash/profile.bash
-link_to ~/.hgrc         ~/sw/Mercurial.ini
+
+# Mercurial files can/need to be customized on a per-host/per-OS basis
+cp ~/sw/defaults/Mercurial.ini ~/sw/local/Mercurial.ini
+link_to ~/.hgrc         ~/sw/local/Mercurial.ini
+
 
 	#~/.asy   and   ~/sw/asy 	are both directories
 link_to ~/.asy          ~/sw/asy
@@ -33,13 +41,15 @@ if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
 
 	# Also, Vim uses _vimrc not .vimrc
 	cp ~/.vimrc ~/_vimrc
+
+	# And Mercurial doesn't use a .hgrc on Windows
+	rm ~/.hgrc
+	cp ~/sw/local/Mercurial.ini ~/Mercurial.ini
 else	# Thankfully *nix-y is much better
 	link_to ~/.subversion/config ~/sw/defaults/svn-config
 fi
 
-mkdir -p ~/sw/local/bin
-mkdir -p ~/sw/local/links
-
 echo "Home has been made cozy!"
+echo "You may want to customize ~/.hgrc"
 
 #tic terminfo.master
