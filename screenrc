@@ -22,7 +22,7 @@ hardstatus string '%{gk}[ %{G} %h %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(
 # allow bold colors - necessary for some reason
 attrcolor b ".I"
 # tell screen how to set colors. AB = background, AF=foreground
-#termcapinfo xterm-putty 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+termcapinfo xterm-putty 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 # erase background with current bg color
 defbce "on"
 #term screen-256color

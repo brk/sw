@@ -21,7 +21,7 @@ export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing
 export EDITOR="vim"
 # Make all grep calls use full extended regular expressions
-export GREP_OPTIONS="-E --color=auto"
+export GREP_OPTIONS="--color=auto"
 export LESS="--long-prompt --quiet --line-numbers"
 export LESSSECURE=1
 export PAGER="less"
