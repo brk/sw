@@ -13,7 +13,8 @@ prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
 
 try_include ~/sw/local/paths.bash # System-specific *PATH* variables
 
-export PATH=~/sw/local/bin:$PATH:.	# ~/sw/ is the only globally dependable path
+# ~/sw/ is the only globally dependable path
+export PATH=~/sw/local/bin:~/sw/bin:$PATH:.
 export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
 
 export CDPATH=".:..:~:~/sw/local/links/"
