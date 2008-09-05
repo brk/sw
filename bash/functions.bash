@@ -11,6 +11,8 @@ unwrap      () {
         bzip2 -cd $1 | tar -xvf -
     elif $(matches $1 'gz'); then
         tar xzvf $1
+    elif $(matches $1 'zip'); then
+        unzip $1
     else
         echo Dunno how to handle filename of $1!
     fi
