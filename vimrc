@@ -27,11 +27,13 @@ set shortmess+=I        " Don't show welcome screen
 set history=50          " keep 50 lines of command line history
 set showcmd             " display incomplete commands
 set incsearch           " do incremental searching
+set ignorecase          " by default, don't match case-sensitively
 set smartcase           " Sometimes override ignorecase for searches
 set showfulltag         " Show function arguments when completing
 set showmatch           " Jump to matching (onscreen) brackets
 set showcmd             " Show incomplete commands in statusline
 set ttyfast             " tell vim we have a fast terminal
+set title               " use a more-useful xterm title
 set pastetoggle=<F8>
 set ruler               " Use an info-dense statusline
 set statusline=%<%f%=\ %m[b:%n]%h%r\ %-8(%)\ chr(%3b)\ @\ %2c%3V:\ line\ %l\ of\ %L,\ %P
