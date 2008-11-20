@@ -24,7 +24,7 @@ set numberwidth=5       " And a not-too-wide numbering gutter
 endif
 set number              " Show line numbers
 set shortmess+=I        " Don't show welcome screen
-set history=50          " keep 50 lines of command line history
+set history=100         " keep more lines of command line history
 set showcmd             " display incomplete commands
 set incsearch           " do incremental searching
 set ignorecase          " by default, don't match case-sensitively
@@ -176,8 +176,14 @@ noremap <C-S>   :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
 inoremap <C-S>  <C-O>:update<CR>
 
-"noremap <C-E>   :echo "hi!"<CR> "example
+" ' normally jumps to line of mark, and
+" ` jumps to line and column of mark.
+" Might as well swap them.
+nnoremap ' `
+nnoremap ` '
 
+"noremap <C-E>   :echo "hi!"<CR> "example
+"
 " Make down arrow key a little smarter
 imap <silent>  <down> <C-R>=SmartDown()<CR>
 nmap <silent>  <down> :call SmartDown()<CR>
@@ -195,6 +201,9 @@ endfunction
 " Make F2 clear search history
 nmap <F2> :nohlsearch<CR>
 imap <F2> <ESC>:nohlsearch<CR>a
+
+" Same for <leader>n
+nmap <silent> <leader>n :silent :nohlsearch<CR>
 
 "  inoremap <silent><Esc>      <C-r>=pumvisible()?"\<lt>C-e>":"\<lt>Esc>"<CR>
 "  inoremap <silent><CR>       <C-r>=pumvisible()?"\<lt>C-y>":"\<lt>CR>"<CR>
@@ -222,6 +231,9 @@ let @i="\"ryiwjdw\"rP"	" Macro for creating incrementing lists
 
 
 " ========================= Plugin Options: =========================
+" make leader key a little more accessible.
+let mapleader = ","
+
 let g:detectindent_preferred_expandtab = 1
 let g:detectindent_preferred_indent = 4
 let g:is_bash=1             " Default shell syntax is bash, not ksh
