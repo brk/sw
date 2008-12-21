@@ -302,6 +302,7 @@ if has("autocmd")
   " For makefiles
   autocmd BufEnter  ?akefile*   set include=^s\=include
   autocmd BufLeave  ?akefile*   set include&
+  autocmd FileType make		set noexpandtab
 
   augroup END
 
