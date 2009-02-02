@@ -2,11 +2,11 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # also sourced by ~/.bash_profile
 
-
-
 # There is no need to set anything past this point for scp and rcp
 if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
-        return
+    # OK, so set PATH for e.g. remote Mercurial acccess
+    export PATH=$PATH:~/packages/bin
+    return
 fi
 
 echo "Reading bash/rc" >&2
