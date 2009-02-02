@@ -51,6 +51,7 @@ alias ....="cd ../../.."
 
 
 try_include ~/sw/bash/bash_completion.sh
+try_include ~/sw/bash/hg_completion.bash
 try_include ~/sw/local/rc.bash
 
 type -p set_prompt && set_prompt    # type -p silently verifies functionhood
