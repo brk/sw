@@ -49,6 +49,8 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+# directory tree
+alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 try_include ~/sw/bash/bash_completion.sh
 try_include ~/sw/bash/hg_completion.bash

@@ -64,5 +64,9 @@ pathexpand () {
     fi
 }
 
+
+
+
 export -f mkcd try_include quiet svn_up_and_log wrap unwrap sibs
 export -f replace reload pathexpand better_cd matches
+#export -f dirf
