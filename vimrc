@@ -34,7 +34,7 @@ set showmatch           " Jump to matching (onscreen) brackets
 set showcmd             " Show incomplete commands in statusline
 set ttyfast             " tell vim we have a fast terminal
 set title               " use a more-useful xterm title
-set pastetoggle=<F8>
+set pastetoggle=<F5>
 set ruler               " Use an info-dense statusline
 set statusline=%<%f%=\ %m[b:%n]%h%r\ %-8(%)\ chr(%3b)\ @\ %2c%3V:\ line\ %l\ of\ %L,\ %P
 set laststatus=2        " Always display the statusline
