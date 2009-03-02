@@ -52,6 +52,10 @@ alias ....="cd ../../.."
 # directory tree
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
+# On Ubuntu, terminals open non-login shells and don't open
+# profile.bash, which has try_include defined...
+type -p try_include || source ~/sw/bash/profile.bash
+
 try_include ~/sw/bash/bash_completion.sh
 try_include ~/sw/bash/hg_completion.bash
 try_include ~/sw/local/rc.bash
