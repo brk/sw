@@ -51,9 +51,13 @@ set noautowriteall      " But not :qa (when discarding changes may be better)
 " ========================= WHITESPACE =========================
 set expandtab           " Always convert tabs to spaces
 set tabstop=8           " Interpret existing hard tabs as 8 spaces
-set shiftwidth=4        " But new 'tabs' are really 4 spaces
-set softtabstop=4       " Treat four spaces in a row like a tab
+set shiftwidth=2        " But new 'tabs' are really 2 spaces
+set softtabstop=2       " Treat 2 spaces in a row like a tab
 set shiftround          " Always round indent to multiple of 'shiftwidth' spaces
+
+set autoindent
+set smartindent
+set smarttab
 
 set fileformat=unix	" Default to Unix line-endings, more portable generally
 "use :set list! to toggle visible whitespace on/off
@@ -205,6 +209,9 @@ imap <F2> <ESC>:nohlsearch<CR>a
 " Same for <leader>n
 nmap <silent> <leader>n :silent :nohlsearch<CR>
 
+" Delete trailing whitespace and tabs at the end of each line
+map :dtws :%s/[\ \t]\+$//
+
 "  inoremap <silent><Esc>      <C-r>=pumvisible()?"\<lt>C-e>":"\<lt>Esc>"<CR>
 "  inoremap <silent><CR>       <C-r>=pumvisible()?"\<lt>C-y>":"\<lt>CR>"<CR>
 "  inoremap <silent><Down>     <C-r>=pumvisible()?"\<lt>C-n>":"\<lt>Down>"<CR>
@@ -331,6 +338,16 @@ if has("autocmd")
 "    autocmd FileAppendPost             *.gz !mv <afile> <afile>:r
 "    autocmd FileAppendPost             *.gz !gzip <afile>:r
 "  augroup END
+
+  augroup filetype
+   au! BufRead,BufNewFile *.ll     set filetype=llvm
+   au! BufRead,BufNewFile *.llx    set filetype=llvm
+  augroup END
+
+  augroup filetype
+    au! BufRead,BufNewFile *.td     set filetype=tablegen
+  augroup END
+
 
 endif " has("autocmd")
 
