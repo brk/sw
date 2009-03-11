@@ -5,7 +5,9 @@
 # There is no need to set anything past this point for scp and rcp
 if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
     # OK, so set PATH for e.g. remote Mercurial acccess
-    export PATH=$PATH:~/packages/bin
+    if [ -f ~/sw/local/paths.bash ]; then
+      source ~/sw/local/paths.bash
+    fi
     return
 fi
 
