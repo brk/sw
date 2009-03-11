@@ -22,6 +22,7 @@ export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing
 export EDITOR="vim"
 export GREP_OPTIONS="--color=auto"
+export LS_OPTIONS="-FAh"
 export LESS="--long-prompt --quiet --line-numbers"
 export LESSSECURE=1
 export PAGER="less"

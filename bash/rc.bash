@@ -31,8 +31,7 @@ set -o ignoreeof noclobber
 # human readable default calls
 alias df='df -h'
 alias du='du -h'
-# LS_OPTIONS may be defined in ~/sw/local/profile.bash
-alias ls="ls -FAh $LS_OPTIONS"
+alias ls="better_ls"
 
 alias all='type -a'
 
