@@ -25,6 +25,7 @@ export GREP_OPTIONS="--color=auto"
 export LESS="--long-prompt --quiet --line-numbers"
 export LESSSECURE=1
 export PAGER="less"
+export CLICOLOR=1
 
 export SCREENRC=~/sw/screenrc
 export INPUTRC=~/sw/inputrc
