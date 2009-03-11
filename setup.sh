@@ -49,6 +49,14 @@ else	# Thankfully *nix-y is much better
 	link_to ~/.subversion/config ~/sw/defaults/svn-config
 fi
 
+ls 2>/dev/null | grep GNU
+if [ $? = 0 ]; then
+  # Have GNU ls, so enable use of --color=auto
+  echo export LS_OPTIONS="$LS_OPTIONS --color=auto" >> ~/sw/local/profile.bash
+fi
+
+source ~/sw/bash/profile.bash
+
 echo "Home has been made cozy!"
 echo "You may want to customize ~/.hgrc"
 
