@@ -1,17 +1,20 @@
 #!/bin/bash
 
+better_ls   () { \ls $LS_OPTIONS $1 ; }
 matches     () { expr "$1" : ".*$2" ; }
 better_cd   () { \cd $1 && pathexpand; }
 mkcd        () { mkdir $1 && cd $1; }
 sibs        () { dirname `which $1` | xargs ls ; } # List siblings of a given binary
-wrap        () { tar cf - $1 | bzip2 -c > $1.tar.bz2; }
-wrapgz      () { tar cf - $1 | gzip  -c > $1.tar.gz; }
+wrap        () { wrapgz $1 ; }
+# ${1%%/*} is $1 with all trailing slashes removed
+wrapbz      () { tar cf - $1 | bzip2 -c > ${1%%/*}.tar.bz2; }
+wrapgz      () { tar cf - $1 | gzip  -c > ${1%%/*}.tar.gz; }
 unwrap      () {
     if matches $1 'bz2' ; then
         bzip2 -cd $1 | tar -xvf -
-    elif $(matches $1 'gz'); then
+    elif matches $1 'gz'; then
         tar xzvf $1
-    elif $(matches $1 'zip'); then
+    elif matches $1 'zip'; then
         unzip $1
     else
         echo Dunno how to handle filename of $1!
