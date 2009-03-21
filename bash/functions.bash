@@ -42,7 +42,7 @@ replace() {
         for file in $@
         do
             #echo Replacing $a with $b in $file
-            perl -pi.bak -w -e "s/$a/$b/g;" $file
+            perl -pi.bak -w -e "s#$a#$b#g;" $file
         done
     else
         echo Syntax: replace old new fileglob
