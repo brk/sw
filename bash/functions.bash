@@ -1,6 +1,6 @@
 #!/bin/bash
 
-better_ls   () { \ls $LS_OPTIONS $1 ; }
+better_ls   () { \ls $LS_OPTIONS $* ; }
 matches     () { expr "$1" : ".*$2" ; }
 better_cd   () { \cd $1 && pathexpand; }
 mkcd        () { mkdir $1 && cd $1; }

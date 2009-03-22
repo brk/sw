@@ -1,15 +1,56 @@
 #!/bin/bash
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# also sourced by ~/.bash_profile
+# ~/.bashrc: executed by bash(1) for non-login shells,
+# such as new local terminal windows.
+# Also sourced by ~/.bash_profile
+
+
+umask 022 # Create new files as u=rwx, g=rx, o=rx
+
+# A few important utility functions used by the rest of the bash scripts
+quiet       () { "$@" &>/dev/null; }
+try_include () { [ -f $1 ] && source $1; }
+prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
+
+try_include ~/sw/local/paths.bash # System-specific *PATH* variables
 
 # There is no need to set anything past this point for scp and rcp
 if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
-    # OK, so set PATH for e.g. remote Mercurial acccess
-    if [ -f ~/sw/local/paths.bash ]; then
-      source ~/sw/local/paths.bash
-    fi
     return
 fi
+
+# ~/sw/ is the only globally dependable path
+export PATH=~/sw/local/bin:~/sw/bin:$PATH:.
+export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
+
+export CDPATH=".:..:~:~/sw/local/links/"
+export HISTIGNORE="[\t ]:&:[bf]g:exit"
+export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing
+export EDITOR="vim"
+export GREP_OPTIONS="--color=auto"
+export LS_OPTIONS="-FAh"
+export LESS="--long-prompt --quiet --line-numbers"
+export LESSSECURE=1
+export PAGER="less"
+export CLICOLOR=1
+
+export SCREENRC=~/sw/screenrc
+export INPUTRC=~/sw/inputrc
+export TERMINFO=~/sw/local/terminfo
+
+# some non-GNU ls versions choke with unknown options like --color=auto
+if \ls --help | quiet grep -- '--color'; then
+  export LS_OPTIONS="$LS_OPTIONS --color=auto"
+fi
+
+[ -f ~/sw/dircolors ] && quiet type dircolors && eval "`dircolors -b ~/sw/dircolors`"
+
+# always append last history line at every prompt
+export PROMPT_COMMAND='history -a'
+
+try_include ~/sw/bash/prompt.bash
+try_include ~/sw/bash/g.bash
+try_include ~/sw/bash/functions.bash
+# Bash completion is loaded by rc.bash
 
 echo "Reading bash/rc" >&2
 
@@ -54,13 +95,9 @@ alias ....="cd ../../.."
 # directory tree
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
-# On Ubuntu, terminals open non-login shells and don't open
-# profile.bash, which has try_include defined...
-type -p try_include || source ~/sw/bash/profile.bash
-
+try_include ~/sw/local/rc.bash
 try_include ~/sw/bash/bash_completion.sh
 try_include ~/sw/bash/hg_completion.bash
-try_include ~/sw/local/rc.bash
 
 type -p set_prompt && set_prompt    # type -p silently verifies functionhood
 
