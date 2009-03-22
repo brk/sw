@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Don't forget to export new functions at the bottom of the script!
+
 better_ls   () { \ls $LS_OPTIONS $* ; }
 matches     () { expr "$1" : ".*$2" ; }
 better_cd   () { \cd $1 && pathexpand; }
@@ -71,5 +73,5 @@ pathexpand () {
 
 
 export -f mkcd try_include quiet svn_up_and_log wrap unwrap sibs
-export -f replace reload pathexpand better_cd matches
+export -f replace reload pathexpand better_cd matches better_ls
 #export -f dirf

@@ -3,6 +3,63 @@
 # such as new local terminal windows.
 # Also sourced by ~/.bash_profile
 
+echo "Reading bash/rc" >&2
+
+# Shell options and aliases are not persisted between subshells,
+# so they come before the early-exit test.
+
+shopt -s cdspell 	# Ignore minor typos
+shopt -s dotglob 	# Include dotfiles in expansions
+shopt -s checkwinsize 	# So resizing putty in vim doesn't confuse bash
+shopt -s extglob 	# Enable more powerful pattern matching (Pathname Expansion)
+shopt -s histappend	# Append rather than overwrite history to disk
+shopt -s histreedit	# So we get to re-edit failed history substitutions
+shopt -s no_empty_cmd_completion # Don't bother completing empty lines
+shopt -s nocaseglob # Do case-insensitive pathname expansion
+
+shopt -u histverify	# Histverify forces expand-tilde behavior, undesirably
+
+stty -ixon # disable XON/XOFF flow control (^s/^q) 
+
+set -o ignoreeof noclobber
+
+# human readable default calls; not persisted in subshells
+alias df='df -h'
+alias du='du -h'
+alias ls="better_ls"
+
+alias all='type -a'
+
+alias ll="ls -l"
+alias lsl="ls -l"
+alias lv='ls | grep "[^~*]$"'
+alias more='less'
+alias less='less -r' # raw control chars
+alias vim="vim -X"
+alias pscp="scp -pr"
+
+alias cd="better_cd"
+alias cs="cd"
+alias up2="cd ../../"
+alias cd..='cd ..'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+# directory tree
+alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
+
+##############################################################################
+##############################################################################
+
+# If we've already sourced this file, we can and should exit early,
+# before mucking about with paths (which are persisted in subshells)
+if [ -n "$RC_BASH_SOURCED" ]; then
+  return
+else
+  export RC_BASH_SOURCED="true"
+fi
+
 
 umask 022 # Create new files as u=rwx, g=rx, o=rx
 
@@ -42,62 +99,16 @@ if \ls --help | quiet grep -- '--color'; then
   export LS_OPTIONS="$LS_OPTIONS --color=auto"
 fi
 
-[ -f ~/sw/dircolors ] && quiet type dircolors && eval "`dircolors -b ~/sw/dircolors`"
-
 # always append last history line at every prompt
 export PROMPT_COMMAND='history -a'
 
-try_include ~/sw/bash/prompt.bash
+[ -f ~/sw/dircolors ] && quiet type dircolors && eval "`dircolors -b ~/sw/dircolors`"
+
 try_include ~/sw/bash/g.bash
 try_include ~/sw/bash/functions.bash
-# Bash completion is loaded by rc.bash
-
-echo "Reading bash/rc" >&2
-
-shopt -s cdspell 	# Ignore minor typos
-shopt -s dotglob 	# Include dotfiles in expansions
-shopt -s checkwinsize 	# So resizing putty in vim doesn't confuse bash
-shopt -s extglob 	# Enable more powerful pattern matching (Pathname Expansion)
-shopt -s histappend	# Append rather than overwrite history to disk
-shopt -s histreedit	# So we get to re-edit failed history substitutions
-shopt -s no_empty_cmd_completion # Don't bother completing empty lines
-shopt -s nocaseglob # Do case-insensitive pathname expansion
-
-shopt -u histverify	# Histverify forces expand-tilde behavior, undesirably
-
-stty -ixon # disable XON/XOFF flow control (^s/^q) 
-
-set -o ignoreeof noclobber
-
-# human readable default calls
-alias df='df -h'
-alias du='du -h'
-alias ls="better_ls"
-
-alias all='type -a'
-
-alias ll="ls -l"
-alias lsl="ls -l"
-alias lv='ls | grep "[^~*]$"'
-alias more='less'
-alias less='less -r' # raw control chars
-alias vim="vim -X"
-alias pscp="scp -pr"
-
-alias cd="better_cd"
-alias cs="cd"
-alias up2="cd ../../"
-alias cd..='cd ..'
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-
-# directory tree
-alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 try_include ~/sw/local/rc.bash
 try_include ~/sw/bash/bash_completion.sh
 try_include ~/sw/bash/hg_completion.bash
 
-type -p set_prompt && set_prompt    # type -p silently verifies functionhood
-
+try_include ~/sw/bash/prompt.bash
