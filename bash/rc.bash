@@ -95,7 +95,7 @@ export INPUTRC=~/sw/inputrc
 export TERMINFO=~/sw/local/terminfo
 
 # some non-GNU ls versions choke with unknown options like --color=auto
-if \ls --help | quiet grep -- '--color'; then
+if \ls --help 2>/dev/null | quiet grep -- '--color'; then
   export LS_OPTIONS="$LS_OPTIONS --color=auto"
 fi
 
