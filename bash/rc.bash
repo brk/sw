@@ -3,7 +3,10 @@
 # such as new local terminal windows.
 # Also sourced by ~/.bash_profile
 
-echo "Reading bash/rc" >&2
+if [[ $- = *i* ]] ; then
+  SHELL_INTERACTIVE="true"
+  echo "Reading bash/rc" >&2
+fi
 
 # Shell options and aliases are not persisted between subshells,
 # so they come before the early-exit test.
@@ -18,8 +21,6 @@ shopt -s no_empty_cmd_completion # Don't bother completing empty lines
 shopt -s nocaseglob # Do case-insensitive pathname expansion
 
 shopt -u histverify	# Histverify forces expand-tilde behavior, undesirably
-
-stty -ixon # disable XON/XOFF flow control (^s/^q) 
 
 set -o ignoreeof noclobber
 
@@ -52,6 +53,15 @@ alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/
 ##############################################################################
 ##############################################################################
 
+# A few important utility functions used by the rest of the bash scripts
+quiet       () { "$@" &>/dev/null; }
+try_include () { [ -f $1 ] && source $1; }
+prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
+
+# We need to make sure that better_ls and better_cd are
+# defined for remote non-login shells like svn+ssh:// access
+try_include ~/sw/bash/functions.bash
+
 # If we've already sourced this file, we can and should exit early,
 # before mucking about with paths (which are persisted in subshells)
 if [ -n "$RC_BASH_SOURCED" ]; then
@@ -63,17 +73,17 @@ fi
 
 umask 022 # Create new files as u=rwx, g=rx, o=rx
 
-# A few important utility functions used by the rest of the bash scripts
-quiet       () { "$@" &>/dev/null; }
-try_include () { [ -f $1 ] && source $1; }
-prepend_path () { [ -d $1 ] && PATH="$1:$PATH"; }
-
 try_include ~/sw/local/paths.bash # System-specific *PATH* variables
 
 # There is no need to set anything past this point for scp and rcp
-if [[ $- != *i* ]] ; then # Shell is non-interactive.  Be done now!
-    return
+if [ "$SHELL_INTERACTIVE" != "true" ]; then # Shell is non-interactive.  Be done now!
+  return
 fi
+
+# This goes after non-interactive subshell test because
+# if it fails on Solaris, it breaks TortoiseSVN. Plus, it only
+# really applies to interactive shells anyways.
+stty -ixon # disable XON/XOFF flow control (^s/^q)
 
 # ~/sw/ is the only globally dependable path
 export PATH=~/sw/local/bin:~/sw/bin:$PATH:.
@@ -105,7 +115,6 @@ export PROMPT_COMMAND='history -a'
 [ -f ~/sw/dircolors ] && quiet type dircolors && eval "`dircolors -b ~/sw/dircolors`"
 
 try_include ~/sw/bash/g.bash
-try_include ~/sw/bash/functions.bash
 
 try_include ~/sw/local/rc.bash
 try_include ~/sw/bash/bash_completion.sh
