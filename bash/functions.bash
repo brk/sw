@@ -69,9 +69,35 @@ pathexpand () {
     fi
 }
 
+# Return true if arg is an executable
+# usage:
+# if have wget; then echo "ya wget"; fi
+# or
+# have wget && echo "ya wget"
+have () {
+    quiet type -p $1;
+}
+
+# Print URL contents to stdout
+readurl () {
+    if have curl; then
+        curl -s $1
+    elif have wget; then
+        wget -O - -q $1
+    fi
+}
+
+# Download URL to default file
+geturl () {
+    echo "todo: implement geturl()!";
+}
 
 
+printip () {
+  readurl eschew.org/ip.php;
+}
 
+export -f readurl geturl printip
 export -f mkcd try_include quiet svn_up_and_log wrap unwrap sibs
 export -f replace reload pathexpand better_cd matches better_ls
 #export -f dirf
