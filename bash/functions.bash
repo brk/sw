@@ -4,7 +4,7 @@
 
 better_ls   () { \ls $LS_OPTIONS $* ; }
 matches     () { expr "$1" : ".*$2" ; }
-better_cd   () { \cd $1 && pathexpand; }
+better_cd   () { \cd $* && pathexpand; }
 mkcd        () { mkdir $1 && cd $1; }
 sibs        () { dirname `which $1` | xargs ls ; } # List siblings of a given binary
 wrap        () { wrapgz $1 ; }
