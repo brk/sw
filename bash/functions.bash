@@ -69,6 +69,10 @@ pathexpand () {
     fi
 }
 
+paths () {
+    echo $PATH | sed -e 's/:/\n/g'
+}
+
 # Return true if arg is an executable
 # usage:
 # if have wget; then echo "ya wget"; fi
@@ -100,4 +104,5 @@ printip () {
 export -f readurl geturl printip
 export -f mkcd try_include quiet svn_up_and_log wrap unwrap sibs
 export -f replace reload pathexpand better_cd matches better_ls
+export -f paths
 #export -f dirf
