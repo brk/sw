@@ -47,6 +47,9 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+alias x="dtrx"
+alias v="vim"
+
 # directory tree
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
