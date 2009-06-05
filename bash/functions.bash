@@ -4,7 +4,13 @@
 
 better_ls   () { \ls $LS_OPTIONS $* ; }
 matches     () { expr "$1" : ".*$2" ; }
-better_cd   () { \cd $* && pathexpand; }
+better_cd   () {
+  if [[ $# == 2 ]]; then
+    \cd `zsh_cd2.py $(pwd) $1 $2` && pathexpand;
+  else
+    \cd $* && pathexpand;
+  fi
+}
 mkcd        () { mkdir $1 && cd $1; }
 sibs        () { dirname `which $1` | xargs ls ; } # List siblings of a given binary
 wrap        () { wrapgz $1 ; }
