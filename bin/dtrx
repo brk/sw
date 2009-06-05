@@ -1,7 +1,9 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # dtrx -- Intelligently extract various archive types.
-# Copyright (c) 2006, 2007, 2008 Brett Smith <brettcsmith@brettcsmith.org>.
+# Copyright ⓒ 2006, 2007, 2008 Brett Smith <brettcsmith@brettcsmith.org>
+# Copyright ⓒ 2008 Peter Kelemen <Peter.Kelemen@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -33,11 +35,15 @@ import tempfile
 import textwrap
 import traceback
 
-from sets import Set as set
+try:
+    set
+except NameError:
+    from sets import Set as set
 
-VERSION = "6.2"
+VERSION = "6.4"
 VERSION_BANNER = """dtrx version %s
-Copyright (c) 2006, 2007, 2008 Brett Smith <brettcsmith@brettcsmith.org>
+Copyright ⓒ 2006, 2007, 2008 Brett Smith <brettcsmith@brettcsmith.org>
+Copyright ⓒ 2008 Peter Kelemen <Peter.Kelemen@gmail.com>
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -212,7 +218,6 @@ class BaseExtractor(object):
                     self.included_archives.append(os.path.join(path, filename))
 
     def check_contents(self):
-        self.contents = os.listdir('.')
         if not self.contents:
             self.content_type = EMPTY
         elif len(self.contents) == 1:
@@ -269,6 +274,7 @@ class BaseExtractor(object):
         try:
             self.archive.seek(0, 0)
             self.extract_archive()
+            self.contents = os.listdir('.')
             self.check_contents()
             self.check_success(self.content_type != EMPTY)
         except EXTRACTION_ERRORS:
@@ -515,6 +521,25 @@ class ShieldExtractor(NoPipeExtractor):
         return result
 
 
+class RarExtractor(NoPipeExtractor):
+    file_type = 'RAR archive'
+    extract_command = ['unrar', 'x']
+    list_command = ['unrar', 'l']
+    border_re = re.compile('^-+$')
+
+    def get_filenames(self):
+        inside = False
+        for line in NoPipeExtractor.get_filenames(self):
+            if self.border_re.match(line):
+                if inside:
+                    break
+                else:
+                    inside = True
+            elif inside:
+                yield line.split(' ')[1]
+        self.archive.close()
+
+
 class BaseHandler(object):
     def __init__(self, extractor, options):
         self.extractor = extractor
@@ -613,6 +638,8 @@ class MatchHandler(BaseHandler):
 
 
 class EmptyHandler(object):
+    target = ''
+
     def can_handle(contents, options):
         return contents == EMPTY
     can_handle = staticmethod(can_handle)
@@ -633,12 +660,25 @@ class BombHandler(BaseHandler):
 
         
 class BasePolicy(object):
+    try:
+        width = int(os.environ['COLUMNS'])
+    except (KeyError, ValueError):
+        width = 80
+    wrapper = textwrap.TextWrapper(width=width - 1)
+
     def __init__(self, options):
         self.current_policy = None
         if options.batch:
             self.permanent_policy = self.answers['']
         else:
             self.permanent_policy = None
+
+    def wrap(self, question, filename):
+        # Note: This function assumes the filename is the first thing in the
+        # question text, and that's the only place it appears.
+        if len(self.wrapper.wrap(filename + ' a')) > 1:
+            return [filename] + self.wrapper.wrap(question[3:])
+        return self.wrapper.wrap(question % (filename,))
 
     def ask_question(self, question):
         question = question + self.choices
@@ -684,8 +724,9 @@ class OneEntryPolicy(BasePolicy):
             raise ValueError("bad value %s for default policy" % (default,))
 
     def prep(self, archive_filename, extractor):
-        question = ["%s contains one %s, but it has a weird name." %
-                    (archive_filename, extractor.content_type)]
+        question = self.wrap(("%%s contains one %s, but its name " +
+                              "doesn't match.") %
+                             (extractor.content_type,), archive_filename)
         question.append(" Expected: " + extractor.basename())
         question.append("   Actual: " + extractor.content_name)
         self.current_policy = (self.permanent_policy or
@@ -718,10 +759,10 @@ class RecursionPolicy(BasePolicy):
         if (self.permanent_policy is not None) or (archive_count == 0):
             self.current_policy = self.permanent_policy or RECURSE_NOT_NOW
             return
-        question = (("%s contains %s other archive file(s), " +
-                     "out of %s file(s) total.") %
-                    (current_filename, archive_count, extractor.file_count))
-        question = textwrap.wrap(question)
+        question = self.wrap(("%%s contains %s other archive file(s), " +
+                              "out of %s file(s) total.") %
+                             (archive_count, extractor.file_count),
+                             current_filename)
         if target == '.':
             target = ''
         included_root = extractor.included_root
@@ -775,6 +816,10 @@ class ExtractorBuilder(object):
                              'mimetypes': ('x-cab',),
                              'extensions': ('cab',),
                              'magic': ('Microsoft Cabinet Archive',)},
+                     'rar': {'extractor': RarExtractor,
+                             'mimetypes': ('rar',),
+                             'extensions': ('rar',),
+                             'magic': ('RAR archive',)},
                      'shield': {'extractor': ShieldExtractor,
                                 'mimetypes': ('x-cab',),
                                 'extensions': ('cab', 'hdr'),
@@ -805,7 +850,8 @@ class ExtractorBuilder(object):
 
     magic_encoding_map = {}
     for mapping in (('bzip2', 'bzip2 compressed'),
-                    ('gzip', 'gzip compressed')):
+                    ('gzip', 'gzip compressed'),
+                    ('lzma', 'LZMA compressed')):
         for pattern in mapping[1:]:
             magic_encoding_map[re.compile(pattern)] = mapping[0]
 
