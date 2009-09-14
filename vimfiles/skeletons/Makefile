@@ -6,7 +6,7 @@ ifdef WINDIR
 	CMAKE_NAME = "MSYS Makefiles"
 else
 	# Linux or OS X, presumably
-	CMAKE_NAME = "Makefiles"
+	CMAKE_NAME = "Unix Makefiles"
 endif
 
 ${CMAKE_DIR}:
