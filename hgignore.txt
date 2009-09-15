@@ -23,6 +23,7 @@
 \.flc$
 \.orig$
 \.pyc$
-
+/bin/
+/_obj/
 ^TAGS
 \.DS_Store
