@@ -54,8 +54,8 @@ def main():
     print usage()
     sys.exit(1)
 
- if len(files) > maxfiles:
-   print "%(watch)s: too many files to watch" % sys.argv[0]
+  if len(files) > maxfiles:
+    print "%(watch)s: too many files to watch" % sys.argv[0]
 
   mtimes = dict([(f, try_get_mtime(f)) for f in files])
   done = False
