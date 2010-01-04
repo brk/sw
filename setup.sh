@@ -22,6 +22,7 @@ mkdir ~/sw/local/links
 link_to ~/.inputrc	~/sw/inputrc
 link_to ~/.screenrc	~/sw/screenrc
 link_to ~/.vimrc	~/sw/vimrc
+link_to ~/.vim          ~/sw/vimfiles
 link_to ~/.bashrc	~/sw/bash/rc.bash
 link_to ~/.bash_profile	~/sw/bash/profile.bash
 
