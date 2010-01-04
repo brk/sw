@@ -126,7 +126,9 @@ set selection=inclusive
 
 set formatoptions=roqcnt1
 
-set path+=~/sw/vim/
+set path+=~/sw/vimfiles
+
+set runtimepath=$HOME/sw/vimfiles,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/sw/vimfiles/after
 
 if has("spell")
 	set nospell		" Turn spelling off by default
