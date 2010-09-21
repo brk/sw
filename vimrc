@@ -21,6 +21,11 @@ set nocompatible
 set foldcolumn=4        " Give a somewhat-wide folding gutter
 if v:version >= 700
 set numberwidth=5       " And a not-too-wide numbering gutter
+set colorcolumn=80
+endif
+if v:version >= 703
+"set relativenumber      " Show relative line numbers
+"set undofile            " Save undo state between sessions.
 endif
 set number              " Show line numbers
 set shortmess+=I        " Don't show welcome screen
@@ -29,6 +34,7 @@ set showcmd             " display incomplete commands
 set incsearch           " do incremental searching
 set ignorecase          " by default, don't match case-sensitively
 set smartcase           " Sometimes override ignorecase for searches
+set gdefault            " Make global replacement the default
 set showfulltag         " Show function arguments when completing
 set showmatch           " Jump to matching (onscreen) brackets
 set showcmd             " Show incomplete commands in statusline
@@ -167,6 +173,9 @@ endif
 
 highlight MatchParen term=bold cterm=bold ctermbg=NONE gui=bold guifg=DarkBlue guibg=bg
 
+
+call pathogen#runtime_append_all_bundles()
+
 "highlight TabFillLine NONE
 "highlight TabFillLine guibg=gray55
 
@@ -187,6 +196,18 @@ inoremap <C-S>  <C-O>:update<CR>
 " Might as well swap them.
 nnoremap ' `
 nnoremap ` '
+
+" Use PCRE regexes instead of Vim-style regexes when searching
+nnoremap / /\v
+vnoremap / /\v
+
+" Map semicolon to regular-colon
+nnoremap ; :
+
+nnoremap <leader>a :Ack
+nnoremap <leader>v V']
+
+inoremap jj <esc>
 
 "noremap <C-E>   :echo "hi!"<CR> "example
 "
@@ -210,6 +231,9 @@ imap <F2> <ESC>:nohlsearch<CR>a
 
 " Same for <leader>n
 nmap <silent> <leader>n :silent :nohlsearch<CR>
+" And <leader><space>
+nnoremap <leader><space> :nohlsearch<cr>
+
 
 " Delete trailing whitespace and tabs at the end of each line
 map :dtws :%s/[\ \t]\+$//
@@ -221,7 +245,7 @@ map :dtws :%s/[\ \t]\+$//
 "  inoremap <silent><PageDown> <C-r>=pumvisible()?"\<lt>PageDown>\<lt>C-p>\<lt>C-n>":"\<lt>PageDown>"<CR>
 "  inoremap <silent><PageUp>   <C-r>=pumvisible()?"\<lt>PageUp>\<lt>C-p>\<lt>C-n>":"\<lt>PageUp>"<CR>
 
-if v:version > 700	" Force use of tabs in Vim 7
+if v:version > 700	" Force use of buffer tabs in Vim 7
     nnoremap gf <C-W>gf
 endif
 
