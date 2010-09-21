@@ -57,6 +57,12 @@ EnhancedCommentify()	EnhancedCommentify.txt	/*EnhancedCommentify()*
 LargeFile-copyright	LargeFile.txt	/*LargeFile-copyright*
 LargeFile.txt	LargeFile.txt	/*LargeFile.txt*
 MatchError	matchit.txt	/*MatchError*
+RltvNmbr	RltvNmbr.txt	/*RltvNmbr*
+RltvNmbr-contents	RltvNmbr.txt	/*RltvNmbr-contents*
+RltvNmbr-copyright	RltvNmbr.txt	/*RltvNmbr-copyright*
+RltvNmbr-history	RltvNmbr.txt	/*RltvNmbr-history*
+RltvNmbr-manual	RltvNmbr.txt	/*RltvNmbr-manual*
+RltvNmbr.txt	RltvNmbr.txt	/*RltvNmbr.txt*
 Tlist_Get_Tag_Prototype_By_Line()	taglist.txt	/*Tlist_Get_Tag_Prototype_By_Line()*
 Tlist_Get_Tagname_By_Line()	taglist.txt	/*Tlist_Get_Tagname_By_Line()*
 Tlist_Set_App()	taglist.txt	/*Tlist_Set_App()*
@@ -178,7 +184,6 @@ detectindent-settings	detectindent.txt	/*detectindent-settings*
 detectindent.txt	detectindent.txt	/*detectindent.txt*
 ds	surround.txt	/*ds*
 g%	matchit.txt	/*g%*
-help-tags	tags	1
 i_CTRL-G_S	surround.txt	/*i_CTRL-G_S*
 i_CTRL-G_s	surround.txt	/*i_CTRL-G_s*
 largefile	LargeFile.txt	/*largefile*
