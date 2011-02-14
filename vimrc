@@ -21,7 +21,7 @@ set nocompatible
 set foldcolumn=4        " Give a somewhat-wide folding gutter
 if v:version >= 700
 set numberwidth=5       " And a not-too-wide numbering gutter
-set colorcolumn=80
+" set colorcolumn=80
 endif
 if v:version >= 703
 "set relativenumber      " Show relative line numbers
