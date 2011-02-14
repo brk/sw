@@ -47,6 +47,9 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+alias pstat="git apply --stat"
+
+alias h="hg"
 alias x="dtrx"
 alias v="vim"
 
