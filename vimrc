@@ -72,7 +72,7 @@ set listchars=tab:>-,trail:.,extends:>
 "flag problematic whitespace (trailing and spaces before tabs)
 "Note you get the same by doing let c_space_errors=1 but
 "this rule really applys to everything.
-highlight RedundantSpaces term=standout ctermbg=red guibg=red
+highlight RedundantSpaces term=standout ctermbg=gray guibg=gray
 match RedundantSpaces /\s\+$\| \+\ze\t/
 "http://www.vim.org/tips/tip.php?tip_id=396
 if v:version >= 700
@@ -191,6 +191,12 @@ noremap <C-S>   :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
 inoremap <C-S>  <C-O>:update<CR>
 
+" Ctrl-Shift-R re-runs the last make command (possibly from history).
+nnoremap <C-S-R> :mak<UP><CR><CR>
+
+" Ctrl-n jumps to the next error.
+nnoremap <C-n> :cn<CR>
+
 " ' normally jumps to line of mark, and
 " ` jumps to line and column of mark.
 " Might as well swap them.
@@ -204,10 +210,18 @@ vnoremap / /\v
 " Map semicolon to regular-colon
 nnoremap ; :
 
+" ,a for ack-mode (no CR so we can type a string)
 nnoremap <leader>a :Ack
+
+" I have no idea what this does anymore!
 nnoremap <leader>v V']
 
-inoremap jj <esc>
+" From insert mode, jj or KK will go to normal mode (without moving the cursor).
+inoremap jj <ESC>l
+" KK will also save the file.
+inoremap KK <ESC>l:w<CR>
+" (in normal-mode, too)
+nnoremap KK :w<CR>
 
 "noremap <C-E>   :echo "hi!"<CR> "example
 "
