@@ -180,6 +180,9 @@ call pathogen#runtime_append_all_bundles()
 "highlight TabFillLine guibg=gray55
 
 " ========================= REMAPPINGS =========================
+" make leader key a little more accessible.
+let mapleader = ","
+
 " GUI-isms, taken from Bram Moolenar's mswin.vim
 " Backspace in Visual mode deletes selection
 vnoremap <BS> d
@@ -196,6 +199,13 @@ nnoremap <C-S-R> :mak<UP><CR><CR>
 
 " Ctrl-n jumps to the next error.
 nnoremap <C-n> :cn<CR>
+
+" QuickFix keys:
+" o to open (same as enter)
+" go to preview file (open but maintain focus on ack.vim results)
+" t to open in new tab
+" T to open in new tab silently
+" q to close the quickfix window
 
 " ' normally jumps to line of mark, and
 " ` jumps to line and column of mark.
@@ -278,9 +288,6 @@ let @i="\"ryiwjdw\"rP"	" Macro for creating incrementing lists
 
 
 " ========================= Plugin Options: =========================
-" make leader key a little more accessible.
-let mapleader = ","
-
 let g:detectindent_preferred_expandtab = 1
 let g:detectindent_preferred_indent = 4
 let g:is_bash=1             " Default shell syntax is bash, not ksh
@@ -312,6 +319,8 @@ map Q gq
 " This is an alternative that also works in block mode, but the deleted
 " text is lost and it only works for putting the current register.
 "vnoremap p "_dp
+
+let g:ackhighlight=1
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
