@@ -72,8 +72,9 @@ set listchars=tab:>-,trail:.,extends:>
 "flag problematic whitespace (trailing and spaces before tabs)
 "Note you get the same by doing let c_space_errors=1 but
 "this rule really applys to everything.
-highlight RedundantSpaces term=standout ctermbg=gray guibg=gray
-match RedundantSpaces /\s\+$\| \+\ze\t/
+"highlight RedundantSpaces term=standout ctermbg=gray guibg=gray
+"match RedundantSpaces /\s\+$\| \+\ze\t/
+
 "http://www.vim.org/tips/tip.php?tip_id=396
 if v:version >= 700
 set virtualedit=onemore
@@ -98,7 +99,7 @@ set sidescrolloff=5
 if has("wildmenu")
 set wildmenu
 set wildmode=list:longest,full
-set wildignore=.svn,CVS,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif
+set wildignore=.svn,CVS,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,*.p_o,*.p_hi
 endif
 
 set guioptions-=e       " don't use native widgets for tabs, prefer text tabs
@@ -194,8 +195,8 @@ noremap <C-S>   :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
 inoremap <C-S>  <C-O>:update<CR>
 
-" Ctrl-Shift-R re-runs the last make command (possibly from history).
-nnoremap <C-S-R> :mak<UP><CR><CR>
+" Ctrl-I re-runs the last make command (possibly from history).
+nnoremap <C-I> :mak<UP><CR><CR>
 
 " Ctrl-n jumps to the next error.
 nnoremap <C-n> :cn<CR>
@@ -233,6 +234,9 @@ inoremap KK <ESC>l:w<CR>
 " (in normal-mode, too)
 nnoremap KK :w<CR>
 
+" Avoid shift-K invoking man; do what i mean instead
+nnoremap K k
+
 "noremap <C-E>   :echo "hi!"<CR> "example
 "
 " Make down arrow key a little smarter
@@ -255,8 +259,6 @@ imap <F2> <ESC>:nohlsearch<CR>a
 
 " Same for <leader>n
 nmap <silent> <leader>n :silent :nohlsearch<CR>
-" And <leader><space>
-nnoremap <leader><space> :nohlsearch<cr>
 
 
 " Delete trailing whitespace and tabs at the end of each line
@@ -280,6 +282,17 @@ cnoremap <C-B> <Left>
 cnoremap <Esc>b <S-Left>
 cnoremap <Esc>f <S-Right>
 
+" see also    :help ctrlp-options
+" :nmap ; :CtrlPBuffer<CR>
+:let g:ctrlp_map = '<leader>o'
+:let g:ctrlp_match_window_bottom = 0
+:let g:ctrlp_match_window_reversed = 0
+:let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+:let g:ctrlp_working_path_mode = 0
+:let g:ctrlp_dotfiles = 0
+:let g:ctrlp_switch_buffer = 0
+
+:nmap \e :NERDTreeToggle<CR>
 
 " ========================= Register Default Mappings ===================
 let @i="\"ryiwjdw\"rP"	" Macro for creating incrementing lists
@@ -309,6 +322,9 @@ let tex_fold_enabled = 1
 let xml_syntax_folding = 1
 
 let python_highlight_all = 1
+
+" Clang-complete
+let g:clang_exec = '~/sw/local/llvm/3.5.0/bin'
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -397,6 +413,9 @@ if has("autocmd")
     au! BufRead,BufNewFile *.td     set filetype=tablegen
   augroup END
 
+  augroup filetype
+    au! BufRead,BufNewFile *.ott setfiletype ott
+  augroup end
 
 endif " has("autocmd")
 
