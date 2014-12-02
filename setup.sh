@@ -56,6 +56,14 @@ if [ $? = 0 ]; then
   echo export LS_OPTIONS="$LS_OPTIONS --color=auto" >> ~/sw/local/profile.bash
 fi
 
+# If we can, pull some external repositories...
+if `hg &> /dev/null`; then
+  # Provides 'smartlog' and 'githelp'
+  hg clone https://bitbucket.org/facebook/hg-experimental ~/sw/local/fb-hg-experimental
+
+  hg clone https://bitbucket.org/sjl/hg-prompt/ ~/sw/local/hg-prompt
+fi
+
 source ~/sw/bash/profile.bash
 
 echo "Home has been made cozy!"
