@@ -13,7 +13,7 @@ if [ -f ~/sw/local/prompt.bash ]; then
 fi
 
 hg_ps1() {
-  hg prompt --angle-brackets "<on <branch|quiet>><in <patch|quiet>>< [<status>]>" 2> /dev/null
+  hg prompt --angle-brackets "<on <branch|quiet>><in <patch|quiet>>< at <bookmark>>< merging with <rev|merge>>< [<status>]><update>" 2> /dev/null
 }
 
 set_prompt () {
