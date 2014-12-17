@@ -65,6 +65,9 @@ set autoindent
 set smartindent
 set smarttab
 
+" Disable hash going to start-of-line, which screws up Python commenting.
+inoremap # X#
+
 set fileformat=unix	" Default to Unix line-endings, more portable generally
 "use :set list! to toggle visible whitespace on/off
 set listchars=tab:>-,trail:.,extends:>
@@ -87,7 +90,9 @@ set whichwrap=b,s,[,]   " Backspace goes to prev line, space to next line
 " for bullet lists being treated like C comments; then define a bullet list
 " style for single stars (like already is for hyphens):
 if has("comments")
-set comments-=s1:/*,mb:*,ex:*/
+"set comments-=s1:/*,mb:*,ex:*/
+" Hard-reset of special comment handling...
+set comments=
 set comments+=s:/*,mb:**,ex:*/
 set comments+=fb:*
 endif
@@ -177,12 +182,31 @@ highlight MatchParen term=bold cterm=bold ctermbg=NONE gui=bold guifg=DarkBlue g
 
 call pathogen#runtime_append_all_bundles()
 
+" foo
+
 "highlight TabFillLine NONE
 "highlight TabFillLine guibg=gray55
 
 " ========================= REMAPPINGS =========================
 " make leader key a little more accessible.
-let mapleader = ","
+"let mapleader = ","
+" The problem with , as a leader is that it makes quickly typing
+" tuples/arrays/lists problematic, because 'a,b,c,d' will trigger
+" a    <leader>c    binding in insert mode!
+" With backslash as leader, the only problematic follower chars
+" are:     r n u ' " \
+
+" \o triggers ctrl-p
+" \n disables search highlighting
+
+" strip trailing whitespace (see also  :dtws )
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" \a for ack-mode (no CR so we can type a string)
+nnoremap <leader>a :Ack
+
+" Reselect just-pasted text  http://stevelosh.com/blog/2010/09/coming-home-to-vim/
+nnoremap <leader>v V']
 
 " GUI-isms, taken from Bram Moolenar's mswin.vim
 " Backspace in Visual mode deletes selection
@@ -220,12 +244,6 @@ vnoremap / /\v
 
 " Map semicolon to regular-colon
 nnoremap ; :
-
-" ,a for ack-mode (no CR so we can type a string)
-nnoremap <leader>a :Ack
-
-" I have no idea what this does anymore!
-nnoremap <leader>v V']
 
 " From insert mode, jj or KK will go to normal mode (without moving the cursor).
 inoremap jj <ESC>l
