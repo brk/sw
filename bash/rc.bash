@@ -106,6 +106,27 @@ stty -ixon # disable XON/XOFF flow control (^s/^q)
 export PATH=~/sw/local/bin:~/sw/bin:$PATH:.
 export LD_LIBRARY_PATH=~/sw/local/lib:$LD_LIBRARY_PATH
 
+# Archival history
+HOSTNAME="$(hostname)"
+HOSTNAME_SHORT="${HOSTNAME%%.*}"
+
+HISTFILE="${HOME}/sw/local/history/$(date -u +%Y/%m/%d.%H.%M.%S)_${HOSTNAME_SHORT}_$$"
+mkdir -p $(dirname "${HISTFILE}")
+
+allhistory ()
+{
+  for f in $(find ~/sw/local/history/ -type f | sort); do
+    echo $f
+    cat  $f
+  done
+}
+
+histgrep ()
+{
+  grep -r "$@" ~/sw/local/history
+  history | grep "$@"
+}
+
 export CDPATH=".:..:~:~/sw/local/links/"
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing

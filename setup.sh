@@ -16,6 +16,7 @@ function link_to {
 mkdir -p ~/sw/local/
 mkdir ~/sw/local/bin
 mkdir ~/sw/local/links
+mkdir ~/sw/local/history
 
 # We technically don't need to make symlinks for .inputrc and .bashrc,
 # but we do anyways for consistency and to reduce typing
