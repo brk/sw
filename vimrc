@@ -75,8 +75,8 @@ set listchars=tab:>-,trail:.,extends:>
 "flag problematic whitespace (trailing and spaces before tabs)
 "Note you get the same by doing let c_space_errors=1 but
 "this rule really applys to everything.
-"highlight RedundantSpaces term=standout ctermbg=gray guibg=gray
-"match RedundantSpaces /\s\+$\| \+\ze\t/
+highlight RedundantSpaces term=standout ctermbg=gray guibg=gray
+match RedundantSpaces /\s\+$\| \+\ze\t/
 
 "http://www.vim.org/tips/tip.php?tip_id=396
 if v:version >= 700
