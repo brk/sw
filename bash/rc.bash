@@ -54,6 +54,14 @@ alias h="hg"
 alias x="dtrx"
 alias v="vim"
 
+mq () {
+  if hg status &>/dev/null; then
+    hg -R $(hg root)/.hg/patches $@
+  else
+    echo "No Mercurial repository containing current directory!"
+  fi
+}
+
 # directory tree
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
