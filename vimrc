@@ -180,8 +180,6 @@ endif
 highlight MatchParen term=bold cterm=bold ctermbg=NONE gui=bold guifg=DarkBlue guibg=bg
 
 
-call pathogen#runtime_append_all_bundles()
-
 " foo
 
 "highlight TabFillLine NONE
