@@ -18,6 +18,28 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" ================= Plugin Management ==============
+filetype off
+
+set runtimepath=$HOME/sw/vimfiles,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/sw/vimfiles/after
+
+set rtp+=~/sw/vimfiles/bundle/Vundle.vim
+
+call vundle#begin('~/sw/vimfiles/bundle')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'Shougo/neomru.vim'
+Plugin 'Shougo/unite.vim'
+Plugin 'Shougo/vimfiler.vim'
+
+call vundle#end()            " required
+
+let g:vimfiler_as_default_explorer = 1
+
+" ==================================================
+
 set foldcolumn=4        " Give a somewhat-wide folding gutter
 if v:version >= 700
 set numberwidth=5       " And a not-too-wide numbering gutter
@@ -139,8 +161,6 @@ set selection=inclusive
 set formatoptions=roqcnt1
 
 set path+=~/sw/vimfiles
-
-set runtimepath=$HOME/sw/vimfiles,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/sw/vimfiles/after
 
 if has("spell")
 	set nospell		" Turn spelling off by default
@@ -340,7 +360,7 @@ let xml_syntax_folding = 1
 let python_highlight_all = 1
 
 " Clang-complete
-let g:clang_exec = '~/sw/local/llvm/3.5.0/bin'
+let g:clang_exec = '~/sw/local/llvm/3.7.0/bin'
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
