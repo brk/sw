@@ -33,9 +33,13 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Shougo/neomru.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimfiler.vim'
+Plugin 'tmhedberg/matchit'
+Plugin 'luochen1990/rainbow'
+Plugin 'tpope/vim-rsi'
 
 call vundle#end()            " required
 
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 let g:vimfiler_as_default_explorer = 1
 
 " ==================================================
@@ -51,7 +55,8 @@ if v:version >= 703
 endif
 set number              " Show line numbers
 set shortmess+=I        " Don't show welcome screen
-set history=100         " keep more lines of command line history
+set history=1000        " keep more lines of command line history
+set tabpagemax=50
 set showcmd             " display incomplete commands
 set incsearch           " do incremental searching
 set ignorecase          " by default, don't match case-sensitively
@@ -159,6 +164,10 @@ set mousemodel=popup_setpos
 set selection=inclusive
 
 set formatoptions=roqcnt1
+
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j " Delete comment character when joining commented lines
+endif
 
 set path+=~/sw/vimfiles
 
