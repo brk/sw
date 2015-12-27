@@ -35,6 +35,7 @@ Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimfiler.vim'
 Plugin 'tmhedberg/matchit'
 Plugin 'luochen1990/rainbow'
+Plugin 'zefei/vim-wintabs'
 Plugin 'tpope/vim-rsi'
 
 call vundle#end()            " required
