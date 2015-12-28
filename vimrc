@@ -173,6 +173,11 @@ endif
 
 set path+=~/sw/vimfiles
 
+" Have Vim not litter the whole FS with swap/backup files.
+set backupdir=~/sw/local/vimtmp,.
+set directory=~/sw/local/vimtmp,.
+set undodir=~/sw/local/vimtmp,.
+
 if has("spell")
 	set nospell		" Turn spelling off by default
 				" Toggle spelling with F4 key
