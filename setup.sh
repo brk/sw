@@ -15,6 +15,7 @@ function link_to {
 
 mkdir -p ~/sw/local/
 mkdir ~/sw/local/bin
+mkdir ~/sw/local/vimtmp
 mkdir ~/sw/local/links
 mkdir ~/sw/local/history
 
@@ -36,19 +37,12 @@ link_to ~/.hgrc         ~/sw/local/Mercurial.ini
 link_to ~/.asy          ~/sw/asy
 
 if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
-	# Subversion stores its config file in a weird place
-	# And NTFS junction points are too dangerous for my taste
-	make_backup "$APPDATA/Subversion/config"
-	cp ~/sw/defaults/svn-config "$APPDATA\\Subversion\\config"
-
-	# Also, Vim uses _vimrc not .vimrc
+	# Vim uses _vimrc not .vimrc
 	cp ~/.vimrc ~/_vimrc
 
 	# And Mercurial doesn't use a .hgrc on Windows
 	rm ~/.hgrc
 	cp ~/sw/local/Mercurial.ini ~/Mercurial.ini
-else	# Thankfully *nix-y is much better
-	link_to ~/.subversion/config ~/sw/defaults/svn-config
 fi
 
 ls 2>/dev/null | grep GNU
