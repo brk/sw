@@ -23,26 +23,8 @@ filetype off
 
 set runtimepath=$HOME/sw/vimfiles,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/sw/vimfiles/after
 
-set rtp+=~/sw/vimfiles/bundle/Vundle.vim
-
-call vundle#begin('~/sw/vimfiles/bundle')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'Shougo/neomru.vim'
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/vimfiler.vim'
-Plugin 'tmhedberg/matchit'
-Plugin 'luochen1990/rainbow'
-Plugin 'zefei/vim-wintabs'
-Plugin 'vim-voom/VOoM'
-Plugin 'tpope/vim-rsi'
-
-call vundle#end()            " required
 
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
-let g:vimfiler_as_default_explorer = 1
 
 " ==================================================
 
