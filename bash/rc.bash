@@ -54,6 +54,8 @@ alias h="hg"
 alias x="dtrx"
 alias v="vim"
 
+alias grep="grep --color=auto"
+
 mq () {
   if hg status &>/dev/null; then
     hg -R $(hg root)/.hg/patches $@
@@ -139,7 +141,6 @@ export CDPATH=".:..:~:~/sw/local/links/"
 export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing
 export EDITOR="vim"
-export GREP_OPTIONS="--color=auto"
 export LS_OPTIONS="-Fh"
 export LESS="--long-prompt --quiet --line-numbers"
 export LESSSECURE=1
