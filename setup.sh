@@ -55,6 +55,8 @@ if `hg &> /dev/null`; then
   hg clone https://bitbucket.org/facebook/hg-experimental ~/sw/local/fb-hg-experimental
 
   hg clone https://bitbucket.org/sjl/hg-prompt/ ~/sw/local/hg-prompt
+
+  hg clone https://bitbucket.org/halbersa/bookbinder ~/sw/local/bookbinder
 fi
 
 source ~/sw/bash/profile.bash
