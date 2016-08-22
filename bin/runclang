@@ -1,0 +1,5 @@
+#!/bin/sh
+
+clang $@ -o tmp.exe
+[ -f tmp.exe ] && ./tmp.exe
+rm -f tmp.exe
