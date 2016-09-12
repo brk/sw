@@ -1,5 +1,7 @@
 #!/bin/sh
 
-clang $@ -o tmp.exe
-[ -f tmp.exe ] && ./tmp.exe
-rm -f tmp.exe
+clang -Werror=division-by-zero $@ -o _runclang.exe
+[ -f _runclang.exe ] && ./_runclang.exe
+retval=$?
+rm -f _runclang.exe
+exit ${retval}
