@@ -170,6 +170,14 @@ if has("spell")
 	"highlight PmenuSel ctermf=black ctermbg=lightgray
 endif
 
+if has("directx") && $VIM_USE_DIRECTX != '0'
+  set renderoptions=type:directx,taamode:1
+endif
+
+if v:version > 800
+	set breakindent
+endif
+
 " ========================= HIGHLIGHTING =========================
 
 if &term =~ "putty"
