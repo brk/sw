@@ -1,0 +1,27 @@
+eval '(exit $?0)' && eval 'exec perl -S $0 ${1+"$@"}' && eval 'exec perl -S $0 $argv:q' if 0;
+
+# Translate A4 to letter with only a vertical shift (no rescaling).
+#							-- gnome
+
+goto HELP if ($#ARGV < 1);
+if (-e $ARGV[1]) {
+  print "\n >>> output file $ARGV[1] already exists, overwrite? [<CR>=no] ";
+  $text = <STDIN>;
+  print "\n";
+  exit(0) if (!($text=~/^\s*y/i));
+}
+open (A4,"<$ARGV[0]"); open (LETTER,">$ARGV[1]");
+while (<A4>) {
+  print LETTER;
+  next if (!/^%%Page:/);
+  print LETTER "0 -25 translate\n";
+}
+close(A4); close(LETTER);
+
+exit(1);
+
+HELP:
+print "\nUsage:   a4toletter <a4file> <letterfile>  \n";
+print "\n"; exit(0);
+
+
