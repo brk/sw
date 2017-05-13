@@ -26,6 +26,16 @@ link_to ~/.vim          ~/sw/vimfiles
 link_to ~/.bashrc	~/sw/bash/rc.bash
 link_to ~/.bash_profile	~/sw/bash/profile.bash
 
+# If we can, pull some external repositories...
+if `hg &> /dev/null`; then
+  # Provides 'smartlog' and 'githelp'
+  hg clone https://bitbucket.org/facebook/hg-experimental ~/sw/local/fb-hg-experimental
+
+  hg clone https://bitbucket.org/sjl/hg-prompt/ ~/sw/local/hg-prompt
+
+  hg clone https://bitbucket.org/halbersa/bookbinder ~/sw/local/bookbinder
+fi
+
 # Mercurial files can/need to be customized on a per-host/per-OS basis
 cp ~/sw/defaults/Mercurial.ini ~/sw/local/Mercurial.ini
 link_to ~/.hgrc         ~/sw/local/Mercurial.ini
@@ -47,16 +57,6 @@ ls 2>/dev/null | grep GNU
 if [ $? = 0 ]; then
   # Have GNU ls, so enable use of --color=auto
   echo export LS_OPTIONS="$LS_OPTIONS --color=auto" >> ~/sw/local/profile.bash
-fi
-
-# If we can, pull some external repositories...
-if `hg &> /dev/null`; then
-  # Provides 'smartlog' and 'githelp'
-  hg clone https://bitbucket.org/facebook/hg-experimental ~/sw/local/fb-hg-experimental
-
-  hg clone https://bitbucket.org/sjl/hg-prompt/ ~/sw/local/hg-prompt
-
-  hg clone https://bitbucket.org/halbersa/bookbinder ~/sw/local/bookbinder
 fi
 
 source ~/sw/bash/profile.bash
