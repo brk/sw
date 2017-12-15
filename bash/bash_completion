@@ -2853,12 +2853,12 @@ _tar()
 		return 0
 		;;
 	+([^IZzjy])f)
-		ext='t@(ar?(.@(Z|gz|bz?(2)))|gz|bz?(2))'
-		regex='t\(ar\(\.\(Z\|gz\|bz2\?\)\)\?\|gz\|bz2\?\)'
+		ext='t@(ar?(.@(Z|xz|gz|bz?(2)))|xz|gz|bz?(2))'
+		regex='t\(ar\(\.\(Z\|xz|gz\|bz2\?\)\)\?\|xz|gz\|bz2\?\)'
 		;;
 	*[Zz]*f)
-		ext='t?(ar.)@(gz|Z)'
-		regex='t\(ar\.\)\?\(gz\|Z\)'
+		ext='t?(ar.)@(xz|gz|Z)'
+		regex='t\(ar\.\)\?\(xz|gz\|Z\)'
 		;;
 	*[Ijy]*f)
 		ext='t?(ar.)bz?(2)'
