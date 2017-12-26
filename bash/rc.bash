@@ -39,7 +39,7 @@ alias less='less -r' # raw control chars
 alias vim="vim -X"
 alias pscp="scp -pr"
 
-alias cd="better_cd"
+#alias cd="better_cd"
 alias cs="cd"
 alias up2="cd ../../"
 alias cd..='cd ..'
