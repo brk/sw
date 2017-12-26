@@ -1,7 +1,7 @@
 #!/bin/sh
 
 clang -Werror=division-by-zero $@ -o _runclang.exe
-[ -f _runclang.exe ] && ./_runclang.exe
+[ -f _runclang.exe ] && timeout 10 ./_runclang.exe
 retval=$?
 rm -f _runclang.exe
 exit ${retval}
