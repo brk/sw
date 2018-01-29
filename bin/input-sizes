@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+# Usage: input-sizes npoints lo hi
+#
+# Selects approximately n datapoints between lo and hi,
+# inclusive. Prints to stdout.
+#
+# For now, all inputs are required to be integers.
+#
+# Use in shell scripts:
+#       for x in `input-sizes 10 100 1000`; do
+#        echo $x
+#       done
+# will print
+
+import sys
+
+npoints = int(sys.argv[1])
+lo = int(sys.argv[2])
+hi = int(sys.argv[3])
+
+delta = float(hi - lo)/float(npoints - 1)
+
+fpts = [float(lo) + n * delta for n in range(npoints)]
+ipts = [int(x) for x in fpts]
+for x in ipts:
+    print x
+
