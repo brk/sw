@@ -52,7 +52,9 @@ do
     let peak="sample > peak ? sample : peak"
     sleep 0.1
 done
-echo "memusg: peak=$peak" >&2
+#echo "memusg: peak=$peak" >&2
+peakmb=$(( $peak / 1000 ))
+echo "memusg: peak=$peakmb MB" >&2
 ) &
 monpid=$!
 

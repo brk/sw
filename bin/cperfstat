@@ -1,12 +1,12 @@
 #!/bin/sh
 
 BASELINE_EVENTS=instructions,cycles,minor-faults
-STALL_EVENTS=cycle_activity.stalls_total,cycle_activity.stalls_mem_any,branch-misses
+STALL_EVENTS=cycle_activity.stalls_total,cycle_activity.stalls_mem_any,branch-misses,baclears.any
 TLB_EVENTS=dtlb_load_misses.walk_active,dtlb_store_misses.walk_active,itlb_misses.walk_active
 MEM_EVENTS=mem-stores,L1-dcache-loads
 CACHE_EVENTS=cache-misses,ld_blocks.store_forward
-EVENTS=${BASELINE_EVENTS},${CACHE_EVENTS},${STALL_EVENTS},${TLB_EVENTS},${MEM_EVENTS},task-clock
-
+EVENTS=${BASELINE_EVENTS},${CACHE_EVENTS},${STALL_EVENTS},${MEM_EVENTS},task-clock
+#${TLB_EVENTS}
 ~/pmu-tools/ocperf.py stat -e ${EVENTS} $@
 
 
@@ -20,8 +20,10 @@ EVENTS=${BASELINE_EVENTS},${CACHE_EVENTS},${STALL_EVENTS},${TLB_EVENTS},${MEM_EV
 
 # Redundant:uops_executed.stall_cycles,
 
-# Not supported on Core i5 6600K:
+# Needs to be run in full-system mode:
 #uncore_imc/data_reads/,uncore_imc/data_writes/
+
+# Not supported on Core i5 6600K:
 #mem-loads
 #int_misc.recovery_cycles_any ??
 
