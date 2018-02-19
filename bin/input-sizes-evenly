@@ -24,24 +24,10 @@ lo = int(sys.argv[2])
 hi = int(sys.argv[3])
 extras = [int(x) for x in sys.argv[4:]]
 
-def evenlyf(lo, hi, n):
-  d = hi - lo
-  dfn = float(d) / float(n - 1)
-  return [lo + (float(k) * dfn) for k in range(n)]
+delta = float(hi - lo)/float(npoints - 1)
 
-def unevenly(lo, hi, n):
-  d = hi - lo
-  dfn = float(d) / float(n - 1)
-  ds = evenlyf(dfn/4, 1.75*dfn, n - 1)
-  rv = [lo]
-  prev = lo
-  for k in range(n-1):
-    prev += ds[k]
-    rv.append(int(round(prev)))
-  return rv
-
-
-ipts = sorted(unevenly(lo, hi, npoints) + extras)
+fpts = [float(lo) + n * delta for n in range(npoints)]
+ipts = sorted([int(x) for x in fpts] + extras)
 for x in ipts:
     print x
 
