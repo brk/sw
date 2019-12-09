@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import with_statement
-
 '''get repository information for use in a shell prompt
 
 Take a string, parse any special variables inside, and output the result.
@@ -10,29 +8,35 @@ Useful mostly for putting information about the current repository into
 a shell prompt.
 '''
 
+from __future__ import with_statement
+
 import re
 import os
 import subprocess
 from datetime import datetime, timedelta
+from contextlib import closing
 from os import path
 from mercurial import extensions, commands, cmdutil, help
+from mercurial.i18n import _
 from mercurial.node import hex, short
 
-CACHE_PATH = ".hg/prompt/cache"
-CACHE_TIMEOUT = timedelta(minutes=15)
+# command registration moved into `registrar` module in v4.3.
+cmdtable = {}
+try:
+    from mercurial import registrar
+    command = registrar.command(cmdtable)
+except (ImportError, AttributeError) as e:
+    command = cmdutil.command(cmdtable)
+
+# `revrange' has been moved into module `scmutil' since v1.9.
+try :
+    from mercurial import scmutil
+    revrange = scmutil.revrange
+except :
+    revrange = cmdutil.revrange
 
 FILTER_ARG = re.compile(r'\|.+\((.*)\)')
 
-def _cache_remote(repo, kind):
-    cache = path.join(repo.root, CACHE_PATH, kind)
-    c_tmp = cache + '.temp'
-
-    # This is kind of a hack and I feel a little bit dirty for doing it.
-    IGNORE = open('NUL:','w') if subprocess.mswindows else open('/dev/null','w')
-
-    subprocess.call(['hg', kind, '--quiet'], stdout=file(c_tmp, 'w'), stderr=IGNORE)
-    os.rename(c_tmp, cache)
-    return
 
 def _with_groups(groups, out):
     out_groups = [groups[0]] + [groups[-1]]
@@ -65,6 +69,9 @@ def _get_filter_arg(f):
     else:
         return None
 
+@command('prompt',
+         [('', 'angle-brackets', None, 'use angle brackets (<>) for keywords')],
+         'hg prompt STRING')
 def prompt(ui, repo, fs='', **opts):
     '''get repository information for use in a shell prompt
 
@@ -91,6 +98,13 @@ def prompt(ui, repo, fs='', **opts):
         currently at my-bookmark
 
     See 'hg help prompt-keywords' for a list of available keywords.
+
+    The format string may also be defined in an hgrc file::
+
+        [prompt]
+        template = {currently at {bookmark}}
+
+    This is used when no format string is passed on the command line.
     '''
 
     def _basename(m):
@@ -101,7 +115,16 @@ def prompt(ui, repo, fs='', **opts):
             book = extensions.find('bookmarks').current(repo)
         except AttributeError:
             book = getattr(repo, '_bookmarkcurrent', None)
-        return _with_groups(m.groups(), book) if book else ''
+        except KeyError:
+            book = getattr(repo, '_bookmarkcurrent', None)
+        if book is None:
+            book = getattr(repo, '_activebookmark', None)
+        if book:
+            cur = repo['.'].node()
+            if repo._bookmarks[book] == cur:
+                return _with_groups(m.groups(), book)
+        else:
+            return ''
 
     def _branch(m):
         g = m.groups()
@@ -130,7 +153,7 @@ def prompt(ui, repo, fs='', **opts):
     def _count(m):
         g = m.groups()
         query = [g[1][1:]] if g[1] else ['all()']
-        return _with_groups(g, str(len(cmdutil.revrange(repo, query))))
+        return _with_groups(g, str(len(revrange(repo, query))))
 
     def _node(m):
         g = m.groups()
@@ -157,7 +180,12 @@ def prompt(ui, repo, fs='', **opts):
         if _get_filter('quiet', g) and not len(q.series):
             return ''
 
-        if _get_filter('applied', g):
+        if _get_filter('topindex', g):
+            if len(q.applied):
+                out = str(len(q.applied) - 1)
+            else:
+                out = ''
+        elif _get_filter('applied', g):
             out = str(len(q.applied))
         elif _get_filter('unapplied', g):
             out = str(len(q.unapplied(repo)))
@@ -234,34 +262,6 @@ def prompt(ui, repo, fs='', **opts):
 
         return _with_groups(g, out) if out else ''
 
-    def _remote(kind):
-        def _r(m):
-            g = m.groups()
-
-            cache_dir = path.join(repo.root, CACHE_PATH)
-            cache = path.join(cache_dir, kind)
-            if not path.isdir(cache_dir):
-                os.makedirs(cache_dir)
-
-            cache_exists = path.isfile(cache)
-
-            cache_time = (datetime.fromtimestamp(os.stat(cache).st_mtime)
-                          if cache_exists else None)
-            if not cache_exists or cache_time < datetime.now() - CACHE_TIMEOUT:
-                if not cache_exists:
-                    open(cache, 'w').close()
-                subprocess.Popen(['hg', 'prompt', '--cache-%s' % kind])
-
-            if cache_exists:
-                with open(cache) as c:
-                    count = len(c.readlines())
-                    if g[1]:
-                        return _with_groups(g, str(count)) if count else ''
-                    else:
-                        return _with_groups(g, '') if count else ''
-            else:
-                return ''
-        return _r
 
     def _rev(m):
         g = m.groups()
@@ -297,8 +297,12 @@ def prompt(ui, repo, fs='', **opts):
     def _tags(m):
         g = m.groups()
 
-        sep = g[1][1:] if g[1] else ' '
+        sep = g[2][1:] if g[2] else ' '
         tags = repo[None].tags()
+
+        quiet = _get_filter('quiet', g)
+        if quiet:
+            tags = filter(lambda tag: tag != 'tip', tags)
 
         return _with_groups(g, sep.join(tags)) if tags else ''
 
@@ -321,14 +325,23 @@ def prompt(ui, repo, fs='', **opts):
         return _with_groups(g, str(tip)) if rev >= 0 else ''
 
     def _update(m):
-        if not repo.branchtags():
+        current_rev = repo[None].parents()[0]
+
+        # Get the tip of the branch for the current branch
+        try:
+            heads = repo.branchmap()[current_rev.branch()]
+            tip = heads[-1]
+        except (KeyError, IndexError):
             # We are in an empty repository.
+
             return ''
 
-        current_rev = repo[None].parents()[0]
-        to = repo[repo.branchtags()[current_rev.branch()]]
-        return _with_groups(m.groups(), '^') if current_rev != to else ''
+        for head in reversed(heads):
+            if not repo[head].closesbranch():
+                tip = head
+                break
 
+        return _with_groups(m.groups(), '^') if current_rev.children() else ''
 
     if opts.get("angle_brackets"):
         tag_start = r'\<([^><]*?\<)?'
@@ -349,7 +362,8 @@ def prompt(ui, repo, fs='', **opts):
             '|(\|merge)'
             ')*': _node,
         'patch(?:'
-            '(\|applied)'
+            '(\|topindex)'
+            '|(\|applied)'
             '|(\|unapplied)'
             '|(\|count)'
             '|(\|quiet)'
@@ -372,60 +386,28 @@ def prompt(ui, repo, fs='', **opts):
             '(\|modified)'
             '|(\|unknown)'
             ')*': _status,
-        'tags(\|[^%s]*?)?' % brackets[-1]: _tags,
+        'tags(?:' +
+            '(\|quiet)' +
+            '|(\|[^%s]*?)' % brackets[-1] +
+            ')*': _tags,
         'task': _task,
         'tip(?:'
             '(\|node)'
             '|(\|short)'
             ')*': _tip,
-        'update': _update,
-
-        'incoming(\|count)?': _remote('incoming'),
-        'outgoing(\|count)?': _remote('outgoing'),
+        'update': _update
     }
 
-    if opts.get("cache_incoming"):
-        _cache_remote(repo, 'incoming')
-
-    if opts.get("cache_outgoing"):
-        _cache_remote(repo, 'outgoing')
+    if not fs:
+        fs = repo.ui.config("prompt", "template", "")
 
     for tag, repl in patterns.items():
         fs = re.sub(tag_start + tag + tag_end, repl, fs)
     ui.status(fs)
 
-def _pull_with_cache(orig, ui, repo, *args, **opts):
-    """Wrap the pull command to delete the incoming cache as well."""
-    res = orig(ui, repo, *args, **opts)
-    cache = path.join(repo.root, CACHE_PATH, 'incoming')
-    if path.isfile(cache):
-        os.remove(cache)
-    return res
-
-def _push_with_cache(orig, ui, repo, *args, **opts):
-    """Wrap the push command to delete the outgoing cache as well."""
-    res = orig(ui, repo, *args, **opts)
-    cache = path.join(repo.root, CACHE_PATH, 'outgoing')
-    if path.isfile(cache):
-        os.remove(cache)
-    return res
-
-def uisetup(ui):
-    extensions.wrapcommand(commands.table, 'pull', _pull_with_cache)
-    extensions.wrapcommand(commands.table, 'push', _push_with_cache)
-
-cmdtable = {
-    "prompt":
-    (prompt, [
-        ('', 'angle-brackets', None, 'use angle brackets (<>) for keywords'),
-        ('', 'cache-incoming', None, 'used internally by hg-prompt'),
-        ('', 'cache-outgoing', None, 'used internally by hg-prompt'),
-    ],
-    'hg prompt STRING')
-}
 help.helptable += (
-    (['prompt-keywords', 'prompt-keywords'], ('Keywords supported by hg-prompt'),
-     (r'''hg-prompt currently supports a number of keywords.
+    (['prompt-keywords'], _('Keywords supported by hg-prompt'),
+     lambda _: r'''hg-prompt currently supports a number of keywords.
 
 Some keywords support filters.  Filters can be chained when it makes
 sense to do so.  When in doubt, try it!
@@ -452,20 +434,6 @@ count
      |REVSET
          The revset to count.
 
-incoming
-     Display nothing, but if the default path contains incoming changesets the
-     extra text will be expanded.
-
-     For example: `{incoming changes{incoming}}` will expand to
-     `incoming changes` if there are changes, otherwise nothing.
-
-     Checking for incoming changesets is an expensive operation, so `hg-prompt`
-     will cache the results in `.hg/prompt/cache/` and refresh them every 15
-     minutes.
-
-     |count
-         Display the number of incoming changesets (if greater than 0).
-
 node
      Display the (full) changeset hash of the current parent.
 
@@ -475,26 +443,17 @@ node
      |merge
          Display the hash of the changeset you're merging with.
 
-outgoing
-     Display nothing, but if the current repository contains outgoing
-     changesets (to default) the extra text will be expanded.
-
-     For example: `{outgoing changes{outgoing}}` will expand to
-     `outgoing changes` if there are changes, otherwise nothing.
-
-     Checking for outgoing changesets is an expensive operation, so `hg-prompt`
-     will cache the results in `.hg/prompt/cache/` and refresh them every 15
-     minutes.
-
-     |count
-         Display the number of outgoing changesets (if greater than 0).
-
 patch
      Display the topmost currently-applied patch (requires the mq
      extension).
 
      |count
          Display the number of patches in the queue.
+
+     |topindex
+         Display (zero-based) index of the topmost applied patch in the series
+         list (as displayed by :hg:`qtop -v`), or the empty string if no patch
+         is applied.
 
      |applied
          Display the number of currently applied patches in the queue.
@@ -576,6 +535,9 @@ status
 tags
      Display the tags of the current parent, separated by a space.
 
+     |quiet
+         Display the tags of the current parent, excluding the tag "tip".
+
      |SEP
          Display the tags of the current parent, separated by `SEP`.
 
@@ -596,5 +558,5 @@ update
      Display `^` if the current parent is not the tip of the current branch,
      otherwise nothing.  In effect, this lets you see if running `hg update`
      would do something.
-''')),
+'''),
 )
