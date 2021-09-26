@@ -3,6 +3,7 @@
   email = ben@eschew.org
 
 [alias]
+  cloen = clone
   st = status -sb --show-stash
   ll = log --oneline
   last = log -1 HEAD --stat
