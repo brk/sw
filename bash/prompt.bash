@@ -12,9 +12,7 @@ if [ -f ~/sw/local/prompt.bash ]; then
     return
 fi
 
-hg_ps1() {
-  hg prompt --angle-brackets "<on <branch|quiet>><in <patch|quiet>>< at <bookmark>>< merging with <rev|merge>>< [<status>]><update>" 2> /dev/null
-}
+source ~/sw/bash/git-prompt.sh
 
 set_prompt () {
 	# ========== BASH COLOR CODES ===========
@@ -33,7 +31,7 @@ set_prompt () {
 	local pretty_cwd="\[$green\]$cwd/\[$reset\]"
 	local histnum="\!"
 	local forty_spaces="                                        "
-	export PS1="\[$titlebar\]:$datetime $pretty_cwd\$(hg_ps1) \$ "
+        export PS1="\[$titlebar\]:$datetime $pretty_cwd\$(__git_ps1 ' (%s)') \$ "
 	# Prefixing the prompt with a colon means that if you copy-and-paste
 	# and entire prompt string by accident, no harm done -- colon is nop
 

@@ -29,19 +29,6 @@ unwrap      () {
     fi
 }
 
-# Does an svn up and then displays the changelog between your previous
-# version and what you just updated to.
-svn_up_and_log () {
-  local old_revision=`svn_revision $@`
-  local first_update=$((${old_revision} + 1))
-  svn up -q $@
-  if [ $(svn_revision $@) -gt ${old_revision} ]; then
-    svn log -v -rHEAD:${first_update} $@
-  else
-    echo "No changes."
-  fi
-}
-
 replace() {
     if [[ $1 && $2 && $3 ]]; then
         a=$1
@@ -97,18 +84,12 @@ readurl () {
     fi
 }
 
-# Download URL to default file
-geturl () {
-    echo "todo: implement geturl()!";
-}
-
-
 printip () {
   readurl eschew.org/ip.php;
 }
 
-export -f readurl geturl printip
-export -f mkcd try_include quiet svn_up_and_log wrap unwrap sibs
+export -f readurl printip
+export -f mkcd try_include quiet wrap unwrap sibs
 export -f replace reload pathexpand better_cd matches better_ls
 export -f paths
 #export -f dirf

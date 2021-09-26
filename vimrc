@@ -158,7 +158,7 @@ set path+=~/sw/vimfiles
 " Have Vim not litter the whole FS with swap/backup files.
 set backupdir=~/sw/local/vimtmp,.
 set directory=~/sw/local/vimtmp,.
-set undodir=~/sw/local/vimtmp,.
+" set undodir=~/sw/local/vimtmp,.
 
 if has("spell")
 	set nospell		" Turn spelling off by default
@@ -352,12 +352,12 @@ let c_comment_strings=1         " Highlight strings in C comments
 let c_space_errors=1            " Highlight problematic whitespace
 let lisp_rainbow = 1
 
-let php_parent_error_close = 1
-let php_parent_error_open = 1
+"let php_parent_error_close = 1
+"let php_parent_error_open = 1
 let php_htmlInStrings = 1
 let php_sql_query = 1
 let php_baselib = 1
-let php_folding = 1
+" let php_folding = 1
 
 let ruby_fold = 1
 let tex_fold_enabled = 1
@@ -366,7 +366,7 @@ let xml_syntax_folding = 1
 let python_highlight_all = 1
 
 " Clang-complete
-let g:clang_exec = '~/sw/local/llvm/3.7.0/bin'
+"let g:clang_exec = '~/sw/local/llvm/3.7.0/bin'
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")

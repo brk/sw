@@ -26,31 +26,12 @@ link_to ~/.vim          ~/sw/vimfiles
 link_to ~/.bashrc	~/sw/bash/rc.bash
 link_to ~/.bash_profile	~/sw/bash/profile.bash
 
-# If we can, pull some external repositories...
-if `hg &> /dev/null`; then
-  # Provides 'smartlog' and 'githelp'
-  hg clone https://bitbucket.org/facebook/hg-experimental ~/sw/local/fb-hg-experimental
-
-  hg clone https://bitbucket.org/sjl/hg-prompt/ ~/sw/local/hg-prompt
-
-  hg clone https://bitbucket.org/halbersa/bookbinder ~/sw/local/bookbinder
-fi
-
-# Mercurial files can/need to be customized on a per-host/per-OS basis
-cp ~/sw/defaults/Mercurial.ini ~/sw/local/Mercurial.ini
-link_to ~/.hgrc         ~/sw/local/Mercurial.ini
-
-
 	#~/.asy   and   ~/sw/asy 	are both directories
 link_to ~/.asy          ~/sw/asy
 
 if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
 	# Vim uses _vimrc not .vimrc
 	cp ~/.vimrc ~/_vimrc
-
-	# And Mercurial doesn't use a .hgrc on Windows
-	rm ~/.hgrc
-	cp ~/sw/local/Mercurial.ini ~/Mercurial.ini
 fi
 
 ls 2>/dev/null | grep GNU
@@ -62,5 +43,4 @@ fi
 source ~/sw/bash/profile.bash
 
 echo "Home has been made cozy!"
-echo "You may want to customize ~/.hgrc"
 

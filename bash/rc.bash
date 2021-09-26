@@ -49,20 +49,10 @@ alias ....="cd ../../.."
 
 alias pstat="git apply --stat"
 
-alias gh="hg"
-alias h="hg"
 alias x="dtrx"
 alias v="vim"
 
 alias grep="grep --color=auto"
-
-mq () {
-  if hg status &>/dev/null; then
-    hg -R $(hg root)/.hg/patches $@
-  else
-    echo "No Mercurial repository containing current directory!"
-  fi
-}
 
 # directory tree
 alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
@@ -142,7 +132,7 @@ export HISTIGNORE="[\t ]:&:[bf]g:exit"
 export FIGNORE=".o:~:.swp"      # Filename suffixes to ignore when completing
 export EDITOR="vim"
 export LS_OPTIONS="-Fh"
-export LESS="--long-prompt --quiet --line-numbers"
+export LESS="--long-prompt --quiet --line-numbers -R"
 export LESSSECURE=1
 export PAGER="less"
 export CLICOLOR=1
@@ -165,6 +155,5 @@ try_include ~/sw/bash/g.bash
 
 try_include ~/sw/local/rc.bash
 try_include ~/sw/bash/bash_completion.sh
-try_include ~/sw/bash/hg_completion.bash
 
 try_include ~/sw/bash/prompt.bash
