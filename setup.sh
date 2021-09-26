@@ -29,6 +29,9 @@ link_to ~/.bash_profile	~/sw/bash/profile.bash
 	#~/.asy   and   ~/sw/asy 	are both directories
 link_to ~/.asy          ~/sw/asy
 
+cp ~/sw/defaults/gitconfig ~/sw/local/gitconfig
+link_to ~/.gitconfig       ~/sw/local/gitconfig
+
 if [ -n "$APPDATA" ]; then # running on a Windows machine with Cygwin
 	# Vim uses _vimrc not .vimrc
 	cp ~/.vimrc ~/_vimrc

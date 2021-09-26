@@ -1,0 +1,28 @@
+[user]
+  name = Ben Karel
+  email = ben@eschew.org
+
+[alias]
+  st = status -sb --show-stash
+  ll = log --oneline
+  last = log -1 HEAD --stat
+  dd = diff --check --dirstat --find-copies --find-renames --histogram --color
+  subup = submodule update --init --recursive
+  subpull = !git submodule foreach git pull --tags origin master
+  get = !git fetch --prune && git pull --rebase=preserve && git submodule update --init --recursive
+  fixup = !sh -c 'git commit -a -m \"fixup! $(git log -1 --format='%s' $@)\"' -
+
+  lg = !git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
+  lgrel = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+
+  topo = log --graph --topo-order --abbrev-commit --date=short --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
+  log-graph = log --graph --all  --decorate --oneline
+
+[github]
+  user = brk
+  token = 48ce50dcf67e6d563554cea4e840133b
+
+[core]
+  excludesfile = ~/sw/gitignore
+
