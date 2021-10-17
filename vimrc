@@ -14,9 +14,18 @@ if v:progname =~? "evim"
   finish
 endif
 
-" Use Vim settings, rather then Vi settings (much better!).
+" Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
-set nocompatible
+" Avoid side effects when it was already reset.
+if &compatible
+  set nocompatible
+endif
+
+" When the +eval feature is missing, the set command above will be skipped.
+" Use a trick to reset compatible only when the +eval feature is missing.
+silent! while 0
+  set nocompatible
+silent! endwhile
 
 " ================= Plugin Management ==============
 filetype off
@@ -41,8 +50,6 @@ set number              " Show line numbers
 set shortmess+=I        " Don't show welcome screen
 set history=1000        " keep more lines of command line history
 set tabpagemax=50
-set showcmd             " display incomplete commands
-set incsearch           " do incremental searching
 set ignorecase          " by default, don't match case-sensitively
 set smartcase           " Sometimes override ignorecase for searches
 set gdefault            " Make global replacement the default
@@ -65,6 +72,12 @@ set visualbell          " Audible bells? Ew.
 set autowrite           " We want to auto-write for :make
 set noautowriteall      " But not :qa (when discarding changes may be better)
 
+set display=truncate    " Show @@@ in the last line if it is truncated.
+set display+=uhex       " Show unprintable characters as <xx> instead of ^C and ~C.
+
+if has('reltime')
+  set incsearch         " do incremental searching when possible to timeout
+endif
 " ========================= WHITESPACE =========================
 set expandtab           " Always convert tabs to spaces
 set tabstop=8           " Interpret existing hard tabs as 8 spaces
@@ -141,7 +154,17 @@ else
   set backup            " keep a backup file
 endif
 
-set mouse=a             " Enable mouse support everywhere
+" In many terminal emulators the mouse works just fine.  By enabling it you
+" can position the cursor, Visually select and scroll with the mouse.
+" Only xterm can grab the mouse events when using the shift key, for other
+" terminals use ":", select text and press Esc.
+if has('mouse')
+  if &term =~ 'xterm'
+    set mouse=a
+  else
+    set mouse=nvi
+  endif
+endif
 set selectmode=mouse,key
 set keymodel=startsel,stopsel
 set mousemodel=popup_setpos
@@ -371,7 +394,7 @@ let python_highlight_all = 1
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
 
-" Don't use Ex mode, use Q for formatting
+" Don't use Ex mode, use Q for formatting; revert with ":unmap Q"
 map Q gq
 
 " This is an alternative that also works in block mode, but the deleted
@@ -381,77 +404,81 @@ map Q gq
 let g:ackhighlight=1
 
 " Switch syntax highlighting on, when the terminal has colors
+" or when using the GUI (which always has colors).
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
-  syntax on
+  syntax on          " revert with ":syntax off"
   set hlsearch
 endif
 
 " Sometimes my finger stays on the shift key a little too long.
 command -nargs=1 Tabedit :tabedit <args>
 
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
+" Only do this part when Vim was compiled with the +eval feature.
+if 1
+
   " Enable file type detection.
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
   filetype plugin indent on
 
-  " Put these in an autocmd group, so that we can delete them easily.
+  " Put these in an autocmd group, so that you can revert them with:
+  " ":augroup vimStartup | au! | augroup END"
   augroup vimrcEx
-  au!
+    au!
 
-  autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-  " Always switch to the current file directory
+    autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+    " Always switch to the current file directory
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+    " For all text files set 'textwidth' to 78 characters.
+    autocmd FileType text setlocal textwidth=78
 
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    " (happens when dropping a file on gvim) and for a commit message (it's
+      " likely a different one than last time).
+    autocmd BufReadPost *
+      \ if line("'\"") > 0 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal g`\""
+      \ | endif
 
-  " For makefiles
-  autocmd BufEnter  ?akefile*   set include=^s\=include
-  autocmd BufLeave  ?akefile*   set include&
-  autocmd FileType make		set noexpandtab
+    " For makefiles
+    autocmd BufEnter  ?akefile*   set include=^s\=include
+    autocmd BufLeave  ?akefile*   set include&
+    autocmd FileType make         set noexpandtab
 
   augroup END
 
   augroup skeletons
         autocmd!
-"        autocmd BufNewFile *.sh     0r ~/sw/vimfiles/skeletons/skeleton.sh
-"        autocmd BufNewFile *.c      0r ~/sw/vimfiles/skeletons/skeleton.c
-"        autocmd BufNewFile *.h      0r ~/sw/vimfiles/skeletons/skeleton.h
-"        autocmd BufNewFile *.java   0r ~/sw/vimfiles/skeletons/skeleton.java
-"        autocmd BufNewFile *.php   0r ~/sw/vimfiles/skeletons/skeleton.php
+  "     autocmd BufNewFile *.sh     0r ~/sw/vimfiles/skeletons/skeleton.sh
+  "     autocmd BufNewFile *.c      0r ~/sw/vimfiles/skeletons/skeleton.c
+  "     autocmd BufNewFile *.h      0r ~/sw/vimfiles/skeletons/skeleton.h
+  "     autocmd BufNewFile *.java   0r ~/sw/vimfiles/skeletons/skeleton.java
+  "     autocmd BufNewFile *.php   0r ~/sw/vimfiles/skeletons/skeleton.php
         autocmd BufNewFile *.html   0r ~/sw/vimfiles/skeletons/skeleton.html
   augroup END
 
 
-"  augroup gzip
-"    autocmd!
-"    autocmd BufReadPre,FileReadPre     *.gz set bin
-"    autocmd BufReadPost,FileReadPost   *.gz '[,']!gunzip
-"    autocmd BufReadPost,FileReadPost   *.gz set nobin
-"    autocmd BufReadPost,FileReadPost   *.gz execute ":doautocmd BufReadPost " . expand("%:r")
-"    autocmd BufWritePost,FileWritePost *.gz !mv <afile> <afile>:r
-"    autocmd BufWritePost,FileWritePost *.gz !gzip <afile>:r
-"
-"    autocmd FileAppendPre              *.gz !gunzip <afile>
-"    autocmd FileAppendPre              *.gz !mv <afile>:r <afile>
-"    autocmd FileAppendPost             *.gz !mv <afile> <afile>:r
-"    autocmd FileAppendPost             *.gz !gzip <afile>:r
-"  augroup END
+  "  augroup gzip
+  "    autocmd!
+  "    autocmd BufReadPre,FileReadPre     *.gz set bin
+  "    autocmd BufReadPost,FileReadPost   *.gz '[,']!gunzip
+  "    autocmd BufReadPost,FileReadPost   *.gz set nobin
+  "    autocmd BufReadPost,FileReadPost   *.gz execute ":doautocmd BufReadPost " . expand("%:r")
+  "    autocmd BufWritePost,FileWritePost *.gz !mv <afile> <afile>:r
+  "    autocmd BufWritePost,FileWritePost *.gz !gzip <afile>:r
+  "
+  "    autocmd FileAppendPre              *.gz !gunzip <afile>
+  "    autocmd FileAppendPre              *.gz !mv <afile>:r <afile>
+  "    autocmd FileAppendPost             *.gz !mv <afile> <afile>:r
+  "    autocmd FileAppendPost             *.gz !gzip <afile>:r
+  "  augroup END
 
   augroup filetype
-   au! BufRead,BufNewFile *.ll     set filetype=llvm
-   au! BufRead,BufNewFile *.llx    set filetype=llvm
+    au! BufRead,BufNewFile *.ll     set filetype=llvm
+    au! BufRead,BufNewFile *.llx    set filetype=llvm
   augroup END
 
   augroup filetype
@@ -462,7 +489,7 @@ if has("autocmd")
     au! BufRead,BufNewFile *.ott setfiletype ott
   augroup end
 
-endif " has("autocmd")
+endif
 
 if filereadable(expand("$HOME/sw/local/rc.vim"))
     source $HOME/sw/local/rc.vim
