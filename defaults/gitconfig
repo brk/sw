@@ -22,7 +22,6 @@
 
 [github]
   user = brk
-  token = 48ce50dcf67e6d563554cea4e840133b
 
 [core]
   excludesfile = ~/sw/gitignore
