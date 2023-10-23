@@ -153,7 +153,10 @@ export PROMPT_COMMAND='history -a'
 
 try_include ~/sw/bash/g.bash
 
-try_include ~/sw/local/rc.bash
 try_include ~/sw/bash/bash_completion.sh
 
 try_include ~/sw/bash/prompt.bash
+
+quiet which direnv && eval "$(direnv hook bash)"
+
+try_include ~/sw/local/rc.bash
