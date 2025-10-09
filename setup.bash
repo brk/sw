@@ -7,7 +7,7 @@ set -euo pipefail
 function link_to {
 	if [[ -h "$1" ]]; then # if it's a symlink
 		rm "$1" # relink it (might link to same file as old link, that's okay)
-	else # it's a regular file
+	elif [[ -f "$1" ]]; then # it's a regular file
 		echo "setup.bash refusing to delete existing file:" "$1"
 		echo "                         when symlinking to " "$2"
 		exit 1
