@@ -39,13 +39,13 @@ uv tool install llm
 # llm keys set anthropic
 
 ### jq
-/bin/bash ./bin/:get-jq.sh
+/bin/bash ./bin/+get-jq.sh
 
 ### jj
 /bin/bash ./bin/jjup.sh
 
 ### fish
-/bin/bash ./bin/:get-fish.sh
+/bin/bash ./bin/+get-fish.sh
 
 ### run fish
 ~/.local/bin/fish
