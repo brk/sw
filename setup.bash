@@ -15,10 +15,10 @@ function link_to {
 	ln -s "$2" "$1" # We've cleared the way to lay down a symlink!
 }
 
-mkdir -p ~/config
+mkdir -p ~/.config
 link_to ~/.config/fish ~/sw/config_fish
 
-mkdir -p ~/config/jj
+mkdir -p ~/.config/jj
 link_to ~/.config/jj/config.toml ~/sw/jj_config.toml
 # machine-specific configs can go in ~/.config/jj/conf.d/*.toml
 
