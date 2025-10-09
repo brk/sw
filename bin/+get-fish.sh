@@ -62,8 +62,7 @@ log "Download complete."
 tar -xf "$EXE_TARBALL" && rm "$EXE_TARBALL"
 
 # --- Install Binary ---
-chmod +x "$EXE_TARBALL"
-mv "$EXE_TARBALL" "$BINARY_NAME"
+chmod +x "$BINARY_NAME"
 
 # --- Sanity Check ---
 INSTALL_PATH="$INSTALL_DIR/$BINARY_NAME"
