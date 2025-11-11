@@ -2,7 +2,7 @@
 set -eu # Exit on error, treat unset variables as error
 
 # --- Configuration ---
-FISH_VERSION="4.1.2"
+FISH_VERSION="4.2.0"
 
 REPO_OWNER="fish-shell"
 REPO_NAME="fish-shell"
